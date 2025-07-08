@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - DB_HOST=mariadb
+      - DB_DATABASE=aggregateur
+      - DB_USERNAME=aggregateur_user
+      - DB_PASSWORD=password
+    depends_on:
+      - mariadb
+    networks:
+      - aggregateur_network
+
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: aggregateur
+      MYSQL_USER: aggregateur_user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - aggregateur_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mariadb
+    depends_on:
+      - mariadb
+    networks:
+      - aggregateur_network
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  aggregateur_network:
+    driver: bridge

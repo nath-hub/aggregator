@@ -1,0 +1,93 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Votre Aggregateur sure",
+        "description": "Documentation de l'API pour l'aggregateur",
+        "contact": {
+            "email": "n.taffot@elyft.tech"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://my-default-host.com",
+            "description": "Serveur API principal"
+        }
+    ],
+    "paths": {
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "SuperAdmin"
+                ],
+                "summary": "Lister les utilisateurs",
+                "operationId": "3f39c58b453184b38972ed33059d0ccb",
+                "responses": {
+                    "200": {
+                        "description": "Liste d'utilisateurs"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "show user information  (for dashboard and mobile. required token)",
+                "operationId": "show",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "number",
+                                            "example": "junes"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Entrez le jeton Bearer ici, ex: 'Bearer 12345abcdef'",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            },
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "SuperAdmin",
+            "description": "SuperAdmin"
+        },
+        {
+            "name": "user",
+            "description": "user"
+        }
+    ]
+}
