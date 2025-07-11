@@ -45,7 +45,8 @@ Route::prefix('docs')->group(function () {
 
 Route::post('/register', [ProxyController::class, 'register']);
 Route::post('/login', [ProxyController::class, 'login']);
-Route::post('/forgot-password', [ProxyController::class, 'forgotPassword']);
+Route::post('/password/reset', [ProxyController::class, 'forgotPassword']);
+Route::post('/verify_code', [ProxyController::class, 'verify_code']);
 
 Route::prefix('apikeys/')->group(function () {
     Route::any('{path?}', [ProxyController::class, 'apikeys'])->where('path', '.*');

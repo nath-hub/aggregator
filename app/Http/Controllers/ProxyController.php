@@ -27,7 +27,12 @@ class ProxyController extends Controller
 
     public function forgotPassword(Request $request)
     {
-        return $this->proxyRequest('user', 'forgot-password', $request);
+        return $this->proxyRequest('user', 'password/reset', $request);
+    }
+
+      public function verify_code(Request $request)
+    {
+        return $this->proxyRequest('user', 'verify_code', $request);
     }
 
     /**
