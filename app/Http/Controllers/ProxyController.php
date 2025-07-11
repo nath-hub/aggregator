@@ -11,8 +11,8 @@ use Illuminate\Support\Str;
 class ProxyController extends Controller
 {
     private $services = [
-        'user' => 'http://127.0.0.1:8001',
-        'apikeys' => 'http://127.0.0.1:8002',
+        'user' => ENV("USER_INTERFACE"),// 'http://127.0.0.1:8001',
+        'apikeys' => ENV("APIKEYS_INTERFACE"), // 'http://127.0.0.1:8002',
     ];
 
     public function register(Request $request)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -12,12 +12,12 @@ class SwaggerController extends Controller
     private $microservices = [
         'user' => [
             'name' => 'User Service',
-            'url' => 'http://127.0.0.1:8001',
+            'url' => ENV("USER_INTERFACE"),
             'prefix' => '/api'
         ],
         'apikeys' => [
             'name' => 'Api Service',
-            'url' => 'http://127.0.0.1:8002',
+            'url' => ENV("APIKEYS_INTERFACE"),
             'prefix' => '/api'
         ],
         'wallet' => [
@@ -167,10 +167,10 @@ class SwaggerController extends Controller
                 $gatewayPath = $service['prefix'] . $cleanPath;
 
                 // Traiter chaque méthode HTTP
- $processedMethods = [];
+                $processedMethods = [];
                 foreach ($methods as $method => $details) {
                     if (in_array(strtolower($method), ['get', 'post', 'put', 'patch', 'delete', 'options', 'head'])) {
-                       
+
                         // Préserver les tags originaux au lieu de les écraser
                         if (isset($details['tags']) && is_array($details['tags']) && !empty($details['tags'])) {
                             // Garder les tags originaux
@@ -229,7 +229,7 @@ class SwaggerController extends Controller
         return $baseSwagger;
     }
 
-  
+
 
     /**
      * Endpoint pour forcer le refresh du cache
