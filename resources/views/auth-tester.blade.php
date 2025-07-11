@@ -614,7 +614,9 @@
                 </form>
             </div>
 
-            <!-- Change Password -->
+        </div>
+
+         <!-- Change Password -->
             <div id="change" class="tab-content">
                 <h2>🔒 Changer le mot de passe</h2>
                 <p>Vous devez être connecté pour changer votre mot de passe.</p>
@@ -631,7 +633,6 @@
                 </form>
                 <div id="changePasswordResponse" class="response" style="display: none;"></div>
             </div>
-        </div>
 
         <script>
             // Configuration de l'API
@@ -640,6 +641,7 @@
 
             // Gestion des onglets
             function showTab(tabName) {
+               
                 // Masquer tous les onglets
                 const tabs = document.querySelectorAll('.tab-content');
                 tabs.forEach(tab => tab.classList.remove('active'));
@@ -651,6 +653,7 @@
                 // Activer l'onglet sélectionné
                 document.getElementById(tabName).classList.add('active');
                 event.target.classList.add('active');
+                
             }
 
             // Fonction utilitaire pour afficher les réponses
@@ -991,6 +994,7 @@
 
             // Reset password
             document.getElementById('resetForm').addEventListener('submit', async (e) => {
+               
                 e.preventDefault();
                 const formData = new FormData(e.target);
                 const data = Object.fromEntries(formData);
@@ -1013,7 +1017,9 @@
 
             // Change password
             document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+                console.log('Change password form submitted');
                 e.preventDefault();
+                
                 const formData = new FormData(e.target);
                 const data = Object.fromEntries(formData);
 
