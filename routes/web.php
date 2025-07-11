@@ -18,4 +18,6 @@ Route::get('/', function () {
 });
 
 
- 
+Route::get('/test-auth', function () {
+    return view('auth-tester');
+}); 
