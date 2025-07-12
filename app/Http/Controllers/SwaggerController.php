@@ -9,32 +9,61 @@ use Illuminate\Support\Facades\Log;
 
 class SwaggerController extends Controller
 {
-    private $microservices = [
-        'user' => [
-            'name' => 'User Service',
-            'url' => ENV("USER_INTERFACE"),
-            'prefix' => '/api'
-        ],
-        'apikeys' => [
-            'name' => 'Api Service',
-            'url' => ENV("APIKEYS_INTERFACE"),
-            'prefix' => '/api'
-        ],
-        'wallet' => [
-            'name' => 'Wallet Service',
-            'url' => 'http://wallet-service:8003',
-            'prefix' => '/api/wallets'
-        ],
-        'notification' => [
-            'name' => 'Notification Service',
-            'url' => 'http://notification-service:8004',
-            'prefix' => '/api/notifications'
-        ]
-    ];
+    // private $microservices = [
+    //     'user' => [
+    //         'name' => 'User Service',
+    //         'url' => config('keys.services.user'),
+    //         'prefix' => '/api'
+    //     ],
+    //     'apikeys' => [
+    //         'name' => 'Api Service',
+    //         'url' => config('keys.services.apikeys'),
+    //         'prefix' => '/api'
+    //     ],
+    //     'wallet' => [
+    //         'name' => 'Wallet Service',
+    //         'url' => 'http://wallet-service:8003',
+    //         'prefix' => '/api/wallets'
+    //     ],
+    //     'notification' => [
+    //         'name' => 'Notification Service',
+    //         'url' => 'http://notification-service:8004',
+    //         'prefix' => '/api/notifications'
+    //     ]
+    // ];
 
     /**
      * Endpoint principal pour servir le Swagger unifié
      */
+
+    private $microservices;
+
+    public function __construct()
+    {
+        $this->microservices = [
+            'user' => [
+                'name' => 'User Service',
+                'url' => config('keys.services.user'),
+                'prefix' => '/api'
+            ],
+            'apikeys' => [
+                'name' => 'Api Service',
+                'url' => config('keys.services.apikeys'),
+                'prefix' => '/api'
+            ],
+            'wallet' => [
+                'name' => 'Wallet Service',
+                'url' => 'http://wallet-service:8003',
+                'prefix' => '/api/wallets'
+            ],
+            'notification' => [
+                'name' => 'Notification Service',
+                'url' => 'http://notification-service:8004',
+                'prefix' => '/api/notifications'
+            ]
+        ];
+    }
+
     public function index()
     {
 

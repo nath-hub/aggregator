@@ -7,13 +7,22 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 
 class ProxyController extends Controller
 {
-    private $services = [
-        'user' => ENV("USER_INTERFACE"),// 'http://127.0.0.1:8001',
-        'apikeys' => ENV("APIKEYS_INTERFACE"), // 'http://127.0.0.1:8002',
-    ];
+
+   private $services;
+
+    public function __construct()
+    {
+        $this->services = Config::get('keys.services'); // ou 'services.microservices' si tu renommes
+    }
+ 
+    // private $services = [
+    //     'user' => env("USER_INTERFACE"),// 'http://127.0.0.1:8001',
+    //     'apikeys' => env("APIKEYS_INTERFACE"), // 'http://127.0.0.1:8002',
+    // ];
 
     public function register(Request $request)
     {
@@ -59,7 +68,7 @@ class ProxyController extends Controller
      */
     private function proxyRequest($service, $path, Request $request)
     {
-        try {
+     try {   
             $baseUrl = $this->services[$service];
             $fullPath = '/api' . ($path ? '/' . ltrim($path, '/') : '');
             $url = $baseUrl . $fullPath;
@@ -343,10 +352,12 @@ class ProxyController extends Controller
      */
     public function testConnectivity()
     {
+         
         $results = [];
 
         foreach ($this->services as $service => $url) {
             try {
+                $url = Config::get('keys.services.' . $service);
                 $start = microtime(true);
                 $response = Http::timeout(5)->get($url . '/api/entreprise/me/company');
                 $end = microtime(true);

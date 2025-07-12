@@ -335,6 +335,12 @@
             <button class="tab-button" onclick="showTab('users')">👥 Utilisateurs</button>
             <button class="tab-button" onclick="showTab('reset')">🔄 Reset MDP</button>
             <button class="tab-button" onclick="showTab('change')">🔒 Changer MDP</button>
+            {{-- <button class="tab-button" onclick="window.location.href='{{ url('/entreprise') }}'">➕ Entreprise</button> --}}
+
+             <button class="tab-button" onclick="window.location.href='{{ route('entreprises.index') }}'">➕ Entreprise</button>
+
+
+
         </div>
 
         <!-- Inscription -->
@@ -616,23 +622,23 @@
 
         </div>
 
-         <!-- Change Password -->
-            <div id="change" class="tab-content">
-                <h2>🔒 Changer le mot de passe</h2>
-                <p>Vous devez être connecté pour changer votre mot de passe.</p>
-                <form id="changePasswordForm">
-                    <div class="form-group">
-                        <label for="old_password">Ancien mot de passe</label>
-                        <input type="password" id="old_password" name="old_password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="new_password">Nouveau mot de passe</label>
-                        <input type="password" id="new_password" name="new_password" required>
-                    </div>
-                    <button type="submit" class="btn">Changer le mot de passe</button>
-                </form>
-                <div id="changePasswordResponse" class="response" style="display: none;"></div>
-            </div>
+        <!-- Change Password -->
+        <div id="change" class="tab-content">
+            <h2>🔒 Changer le mot de passe</h2>
+            <p>Vous devez être connecté pour changer votre mot de passe.</p>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label for="old_password">Ancien mot de passe</label>
+                    <input type="password" id="old_password" name="old_password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new_password">Nouveau mot de passe</label>
+                    <input type="password" id="new_password" name="new_password" required>
+                </div>
+                <button type="submit" class="btn">Changer le mot de passe</button>
+            </form>
+            <div id="changePasswordResponse" class="response" style="display: none;"></div>
+        </div>
 
         <script>
             // Configuration de l'API
@@ -641,7 +647,7 @@
 
             // Gestion des onglets
             function showTab(tabName) {
-               
+
                 // Masquer tous les onglets
                 const tabs = document.querySelectorAll('.tab-content');
                 tabs.forEach(tab => tab.classList.remove('active'));
@@ -653,7 +659,7 @@
                 // Activer l'onglet sélectionné
                 document.getElementById(tabName).classList.add('active');
                 event.target.classList.add('active');
-                
+
             }
 
             // Fonction utilitaire pour afficher les réponses
@@ -872,17 +878,17 @@
                         </thead>
                         <tbody>
                             ${users.map(user => `
-                                                                        <tr>
-                                                                            <td style="font-family: monospace; font-size: 0.8rem;">${user.id}</td>
-                                                                            <td>${user.name}</td>
-                                                                            <td>${user.email}</td>
-                                                                            <td>${user.telephone}</td>
-                                                                            <td><span class="user-role-badge">${formatRole(user.role)}</span></td>
-                                                                            <td><span class="user-status-${user.statut}">${user.statut === 'actif' ? 'Actif' : 'Inactif'}</span></td>
-                                                                            <td>${user.date_derniere_connexion ? formatDate(user.date_derniere_connexion) : 'Jamais'}</td>
-                                                                            <td>${formatDate(user.created_at)}</td>
-                                                                        </tr>
-                                                                    `).join('')}
+                                                                                <tr>
+                                                                                    <td style="font-family: monospace; font-size: 0.8rem;">${user.id}</td>
+                                                                                    <td>${user.name}</td>
+                                                                                    <td>${user.email}</td>
+                                                                                    <td>${user.telephone}</td>
+                                                                                    <td><span class="user-role-badge">${formatRole(user.role)}</span></td>
+                                                                                    <td><span class="user-status-${user.statut}">${user.statut === 'actif' ? 'Actif' : 'Inactif'}</span></td>
+                                                                                    <td>${user.date_derniere_connexion ? formatDate(user.date_derniere_connexion) : 'Jamais'}</td>
+                                                                                    <td>${formatDate(user.created_at)}</td>
+                                                                                </tr>
+                                                                            `).join('')}
                         </tbody>
                     </table>
                 </div>
@@ -994,7 +1000,7 @@
 
             // Reset password
             document.getElementById('resetForm').addEventListener('submit', async (e) => {
-               
+
                 e.preventDefault();
                 const formData = new FormData(e.target);
                 const data = Object.fromEntries(formData);
@@ -1019,7 +1025,7 @@
             document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
                 console.log('Change password form submitted');
                 e.preventDefault();
-                
+
                 const formData = new FormData(e.target);
                 const data = Object.fromEntries(formData);
 
