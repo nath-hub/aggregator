@@ -642,7 +642,7 @@
 
         <script>
             // Configuration de l'API
-            const API_BASE_URL = 'https://aggregator.damam-group.com/entreprise/api'; // Ajustez selon votre configuration
+            const API_BASE_URL = 'https://aggregator.elyft.tech/entreprise/api'; // Ajustez selon votre configuration
             let authToken = localStorage.getItem('auth_token');
 
             // Gestion des onglets
