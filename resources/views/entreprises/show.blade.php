@@ -639,6 +639,8 @@
                 </div>
             `;
 
+            
+
             resultDiv.innerHTML = html;
             resultDiv.className = 'result-container show';
             resultDiv.scrollIntoView({ behavior: 'smooth' });

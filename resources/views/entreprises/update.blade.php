@@ -525,8 +525,7 @@
         // Chargement initial
         document.addEventListener('DOMContentLoaded', function() {
             // En mode démo, on simule les données
-            setTimeout(simulateEntreprise, 1500);
-            // En production, décommentez la ligne ci-dessous
+            setTimeout(simulateEntreprise, 1500); 
             // loadEntreprise();
         });
     </script>
