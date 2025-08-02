@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test API - Affichage Entreprise</title>
+    <title>Consultation Entreprise</title>
     <style>
         * {
             margin: 0;
@@ -12,194 +12,251 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            animation: slideUp 0.8s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .header {
-            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-            color: white;
-            padding: 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 40px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            color: white;
         }
 
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
+            font-weight: 700;
         }
 
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
-            position: relative;
-            z-index: 1;
         }
 
         .content {
             padding: 40px;
         }
 
-        .api-config {
-            background: #f8f9fa;
-            padding: 25px;
+        .auth-section {
+            background: #f8fafc;
+            padding: 30px;
             border-radius: 15px;
             margin-bottom: 30px;
-            border: 1px solid #e9ecef;
+            border-left: 4px solid #4facfe;
         }
 
-        .api-config h3 {
-            color: #495057;
+        .auth-section h3 {
+            color: #333;
             margin-bottom: 20px;
-            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .config-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .config-grid input {
-            padding: 12px 16px;
-            border: 2px solid #e0e6ed;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
         }
 
-        .config-grid input:focus {
-            outline: none;
-            border-color: #0072ff;
-            box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.1);
+        .required::after {
+            content: " *";
+            color: #e74c3c;
         }
 
-        .search-section {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-            border: 1px solid #e0e6ed;
-        }
-
-        .search-section h3 {
-            color: #0072ff;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            border-bottom: 2px solid #0072ff;
-            padding-bottom: 10px;
-        }
-
-        .search-input {
+        input[type="text"],
+        input[type="url"] {
             width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e0e6ed;
-            border-radius: 50px;
-            font-size: 16px;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            margin-bottom: 20px;
+            background: white;
+            font-family: monospace;
         }
 
-        .search-input:focus {
+        input:focus {
             outline: none;
-            border-color: #0072ff;
-            box-shadow: 0 0 0 3px rgba(0, 114, 255, 0.1);
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
         }
 
-        .btn {
-            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
             padding: 15px 30px;
             border: none;
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-right: 10px;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
         }
 
-        .btn:hover {
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 198, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(79, 172, 254, 0.4);
         }
 
-        .btn:active {
+        .btn-primary:active {
             transform: translateY(0);
         }
 
-        .btn-secondary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        .btn-secondary:hover {
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+
+         .btn-danger {
+            background: linear-gradient(135deg, #ff3a3a 0%, #ff1dc7 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(119, 36, 36, 0.3);
         }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(124, 1, 1, 0.4);
+        }
+
+        .btn-danger:active {
+            transform: translateY(0);
+        }
+
+        .btn-danger:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+         
+
+          .btn-green {
+            background: linear-gradient(135deg, #00ff15 0%, #00ff95 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(119, 36, 36, 0.3);
+        }
+
+        .btn-green:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(21, 184, 0, 0.4);
+        }
+
+        .btn-green:active {
+            transform: translateY(0);
+        }
+
+        .btn-green:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+
+        .btn-orange {
+            background: linear-gradient(135deg, #f39e00 0%, #f8f400 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(119, 36, 36, 0.3);
+        }
+
+        .btn-orange:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(252, 193, 0, 0.4);
+        }
+
+        .btn-orange:active {
+            transform: translateY(0);
+        }
+
+        .btn-orange:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
 
         .loading {
-            opacity: 0.7;
-            pointer-events: none;
+            display: none;
+            text-align: center;
+            margin: 20px 0;
         }
 
-        .result-container {
+        .loading::after {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .response-container {
             margin-top: 30px;
             display: none;
         }
 
-        .result-container.show {
-            display: block;
-            animation: fadeIn 0.5s ease-in;
+        .response-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .response-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
         }
 
         .entreprise-card {
@@ -207,144 +264,203 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
         .entreprise-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
             color: white;
-            padding: 25px;
             text-align: center;
         }
 
-        .entreprise-name {
+        .entreprise-header h2 {
             font-size: 2rem;
             margin-bottom: 10px;
         }
 
-        .entreprise-type {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .entreprise-header .type {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
         }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+        .entreprise-body {
             padding: 30px;
         }
 
         .info-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #0072ff;
+            margin-bottom: 30px;
         }
 
-        .info-section h4 {
-            color: #0072ff;
+        .info-section h3 {
+            color: #333;
             margin-bottom: 15px;
-            font-size: 1.2rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4facfe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         .info-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .info-item:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #495057;
-        }
-
-        .info-value {
-            color: #6c757d;
-            text-align: right;
-            max-width: 60%;
-            word-wrap: break-word;
-        }
-
-        .files-section {
-            background: #e3f2fd;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #2196f3;
-        }
-
-        .file-item {
-            background: white;
+            background: #f8fafc;
             padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
         }
 
-        .file-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .file-name {
+        .info-item label {
             font-weight: 600;
-            color: #1976d2;
+            color: #666;
+            font-size: 0.9rem;
+            display: block;
             margin-bottom: 5px;
         }
 
-        .file-url {
-            color: #666;
-            font-size: 0.9rem;
-            word-break: break-all;
+        .info-item .value {
+            color: #333;
+            font-size: 1rem;
         }
 
-        .error-container {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #f5c6cb;
+        .info-item .empty {
+            color: #999;
+            font-style: italic;
         }
 
-        .success-container {
-            background: #d4edda;
-            color: #155724;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #c3e6cb;
-        }
-
-        .json-response {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #e9ecef;
+        .fichiers-section {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 15px;
             margin-top: 20px;
         }
 
-        .json-response h4 {
-            margin-bottom: 15px;
-            color: #495057;
+        .fichiers-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .json-response pre {
-            background: #ffffff;
+        .fichier-item {
+            background: white;
             padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-            overflow-x: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #27ae60;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fichier-info {
+            flex: 1;
+        }
+
+        .fichier-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .fichier-meta {
+            color: #666;
             font-size: 0.9rem;
         }
 
+        .fichier-link {
+            background: #4facfe;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .fichier-link:hover {
+            background: #2196f3;
+            transform: translateY(-1px);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-en-attente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approuve {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejete {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-en-revision {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .user-info {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .user-info h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .json-viewer {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            margin-top: 20px;
+        }
+
+        .toggle-json {
+            background: #4a5568;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .toggle-json:hover {
+            background: #2d3748;
+        }
+
         @media (max-width: 768px) {
-            .config-grid {
-                grid-template-columns: 1fr;
-            }
-            
             .info-grid {
                 grid-template-columns: 1fr;
             }
@@ -356,295 +472,447 @@
             .content {
                 padding: 20px;
             }
+            
+            .fichier-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 Affichage d'une Entreprise</h1>
-            <p>Testez l'endpoint de récupération d'une entreprise par ID</p>
+            <h1>Consultation Entreprise</h1>
+            <p>Récupération des informations d'entreprise via token d'authentification</p>
         </div>
 
         <div class="content">
-            <div class="api-config">
-                <h3>Configuration API</h3>
-                <div class="config-grid">
-                    <input type="text" id="apiUrl" placeholder="URL de base de l'API" value="http://localhost:8000/api/entreprises">
-                    <input type="text" id="apiToken" placeholder="Token d'authentification">
+            <div class="auth-section">
+                <h3>🎉 Configuration de l'API</h3> 
+                   
+                    <input type="url" hidden id="api-url" value="https://aggregator.elyft.tech/api/docs/aggragator.elyft.tech/api/entreprises/me/company" placeholder="https://aggregator.elyft.tech/api/docs/aggragator.elyft.tech/api/entreprises/me/company">
+                  
+                    <input type="text" hidden id="auth-token" placeholder="Bearer your-jwt-token-here">
+             
+                <button type="button" class="btn-primary" onclick="fetchEntreprise()">
+                    🔥 Récupérer les informations de mon entreprise
+                </button>
+                
+                 <div class="auth-section">
+                    <h3>Recherche par ID d'entreprise</h3>
+                    <div class="form-group">
+                        <label for="entreprise-id">ID de l'entreprise:</label>
+                        <input type="text" id="entreprise-id" placeholder="kjdnkdfjlsdksdmkl">
+                    </div>
+                    <button type="button" class="btn-primary" onclick="fetchEntrepriseById()">
+                        Récupérer par ID
+                    </button>
                 </div>
+                
+                <div class="auth-section">
+                    <h3>echerche par ID d'entreprise</h3>
+                    
+                     
+                    <button type="button" class="btn-green" onclick="window.location.href='{{ route('entreprises.create') }}'">
+                        Ajouter
+                    </button>
+                     <button type="button" class="btn-orange" onclick="window.location.href='{{ route('entreprises.update') }}'">
+                        Modifier
+                    </button>
+                     <button type="button" class="btn-danger" onclick="deleteEntrepriseById()">
+                        Supprimer
+                    </button>
+                    
+                      
+                    <button type="button" class="btn-primary" onclick="window.location.href='{{ route('auth') }}'">
+                        Retourn
+                    </button>
+                    
+                     
+                </div>
+                
+                <div class="loading">Chargement en cours...</div>
             </div>
 
-            <div class="search-section">
-                <h3>Rechercher une entreprise</h3>
-                <input type="number" id="entrepriseId" class="search-input" placeholder="Entrez l'ID de l'entreprise" min="1">
-                <button id="searchBtn" class="btn">🔍 Rechercher</button>
-                <button id="clearBtn" class="btn btn-secondary">🗑️ Effacer</button>
-            </div>
-
-            <div id="result" class="result-container"></div>
+            <div class="response-container" id="response-container"></div>
         </div>
     </div>
 
     <script>
-        const apiUrlInput = document.getElementById('apiUrl');
-        const apiTokenInput = document.getElementById('apiToken');
-        const entrepriseIdInput = document.getElementById('entrepriseId');
-        const searchBtn = document.getElementById('searchBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const resultDiv = document.getElementById('result');
+        async function fetchEntreprise() {
+            const apiUrl = document.getElementById('api-url').value;
+           const authToken = localStorage.getItem('auth_token');
+            const responseContainer = document.getElementById('response-container');
+            const loading = document.querySelector('.loading');
+            const button = document.querySelector('.btn-primary');
 
-        searchBtn.addEventListener('click', async function() {
-            const id = entrepriseIdInput.value.trim();
-            
-            if (!id) {
-                showError('Veuillez entrer un ID d\'entreprise');
+            if (!apiUrl || !authToken) {
+                showError('Veuillez remplir l\'URL de l\'API et le token d\'authentification.');
                 return;
             }
 
-            await searchEntreprise(id);
-        });
-
-        clearBtn.addEventListener('click', function() {
-            entrepriseIdInput.value = '';
-            resultDiv.style.display = 'none';
-        });
-
-        entrepriseIdInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchBtn.click();
-            }
-        });
-
-        async function searchEntreprise(id) {
-            const apiUrl = apiUrlInput.value.trim();
-            const apiToken = apiTokenInput.value.trim();
-            
-            if (!apiUrl) {
-                showError('Veuillez configurer l\'URL de l\'API');
-                return;
-            }
-
-            // État de chargement
-            searchBtn.classList.add('loading');
-            searchBtn.innerHTML = '⏳ Recherche...';
-            resultDiv.style.display = 'none';
+            // Afficher le loading
+            button.disabled = true;
+            loading.style.display = 'block';
+            responseContainer.style.display = 'none';
 
             try {
-                const headers = {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                };
-                
-                if (apiToken) {
-                    headers['Authorization'] = `Bearer ${apiToken}`;
-                }
-
-                const response = await fetch(`${apiUrl}/${id}`, {
+                const response = await fetch(apiUrl, {
                     method: 'GET',
-                    headers: headers
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    displayEntreprise(data.entreprise);
+                    showEntreprise(data);
                 } else {
-                    showError(data.message || 'Erreur lors de la récupération', data);
+                    showError(`Erreur ${response.status}: ${data.message || 'Erreur inconnue'}`, data);
                 }
-
             } catch (error) {
-                showError('Erreur de connexion à l\'API', { error: error.message });
+                showError(`Erreur de connexion: ${error.message}`, null);
             } finally {
-                searchBtn.classList.remove('loading');
-                searchBtn.innerHTML = '🔍 Rechercher';
+                button.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+        
+        async function fetchEntrepriseById() {
+            const apiUrl = document.getElementById('api-url').value;
+            const authToken = document.getElementById('auth-token').value;
+            const entrepriseId = document.getElementById('entreprise-id').value;
+            
+            if (!apiUrl || !authToken) {
+                showError('Veuillez remplir l\'URL de l\'API et le token d\'authentification.');
+                return;
+            }
+
+            if (!entrepriseId) {
+                showError('Veuillez saisir un ID d\'entreprise.');
+                return;
+            }
+
+            const fullUrl = `https://aggregator.elyft.tech/api/docs/aggragator.elyft.tech/api/entreprises/${entrepriseId}`;
+            await makeRequest(fullUrl, authToken, 'GET');
+        }
+        
+        
+         async function deleteEntrepriseById() {
+            const apiUrl = document.getElementById('api-url').value;
+            const authToken = document.getElementById('auth-token').value;
+            const entrepriseId = document.getElementById('entreprise-id').value;
+            
+            if (!apiUrl || !authToken) {
+                showError('Veuillez remplir l\'URL de l\'API et le token d\'authentification.');
+                return;
+            }
+
+            if (!entrepriseId) {
+                showError('Veuillez saisir un ID d\'entreprise.');
+                return;
+            }
+
+            const fullUrl = `https://aggregator.elyft.tech/api/docs/aggragator.elyft.tech/api/entreprises/${entrepriseId}`;
+            await makeRequest(fullUrl, authToken, 'DELETE');
+        }
+
+        async function makeRequest(url, token, method) {
+            const responseContainer = document.getElementById('response-container');
+            const loading = document.querySelector('.loading');
+            const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+
+            // Désactiver tous les boutons
+            buttons.forEach(btn => btn.disabled = true);
+            loading.style.display = 'block';
+            responseContainer.style.display = 'none';
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token.startsWith('Bearer ') ? token : `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showEntreprise(data);
+                } else {
+                    showError(`Erreur ${response.status}: ${data.message || 'Erreur inconnue'}`, data);
+                }
+            } catch (error) {
+                showError(`Erreur de connexion: ${error.message}`, null);
+            } finally {
+                // Réactiver tous les boutons
+                buttons.forEach(btn => btn.disabled = false);
+                loading.style.display = 'none';
             }
         }
 
-        function displayEntreprise(entreprise) {
-            const html = `
+        function showEntreprise(entreprise) {
+            const container = document.getElementById('response-container');
+            container.className = 'response-container';
+            
+            const statusClass = `status-${entreprise.statut_kyb || 'en-attente'}`;
+            const statusText = getStatusText(entreprise.statut_kyb);
+            
+            container.innerHTML = `
                 <div class="entreprise-card">
                     <div class="entreprise-header">
-                        <div class="entreprise-name">${entreprise.nom_entreprise || 'N/A'}</div>
-                        <div class="entreprise-type">${entreprise.type_entreprise || 'N/A'}</div>
+                        <h2>${entreprise.nom_entreprise}</h2>
+                        <div class="type">${entreprise.type_entreprise}</div>
+                        <div class="status-badge ${statusClass}" style="margin-top: 10px;">${statusText}</div>
                     </div>
                     
-                    <div class="info-grid">
+                    <div class="entreprise-body">
+                        ${entreprise.user ? `
+                            <div class="user-info">
+                                <h4>ðÂÂÂÂ¤ Utilisateur propriétaire</h4>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <label>ID:</label>
+                                        <div class="value">${entreprise.user.id}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Email:</label>
+                                        <div class="value">${entreprise.user.email || '<span class="empty">Non renseigné</span>'}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Nom:</label>
+                                        <div class="value">${entreprise.user.name || '<span class="empty">Non renseigné</span>'}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
                         <div class="info-section">
-                            <h4>📋 Informations générales</h4>
-                            <div class="info-item">
-                                <span class="info-label">ID:</span>
-                                <span class="info-value">${entreprise.id || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Nom commercial:</span>
-                                <span class="info-value">${entreprise.nom_commercial || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Secteur d'activité:</span>
-                                <span class="info-value">${entreprise.secteur_activite || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Année de création:</span>
-                                <span class="info-value">${entreprise.annee_creation_entreprise || 'N/A'}</span>
-                            </div>
-                        </div>
-
-                        <div class="info-section">
-                            <h4>⚖️ Informations légales</h4>
-                            <div class="info-item">
-                                <span class="info-label">N° Identification fiscale:</span>
-                                <span class="info-value">${entreprise.numero_identification_fiscale || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">N° Registre commerce:</span>
-                                <span class="info-value">${entreprise.numero_registre_commerce || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">N° SIREN:</span>
-                                <span class="info-value">${entreprise.numero_siren || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Capital social:</span>
-                                <span class="info-value">${entreprise.capital_social || 'N/A'}</span>
-                            </div>
-                        </div>
-
-                        <div class="info-section">
-                            <h4>📍 Adresse</h4>
-                            <div class="info-item">
-                                <span class="info-label">Adresse:</span>
-                                <span class="info-value">${entreprise.adresse_siege_social || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Ville:</span>
-                                <span class="info-value">${entreprise.ville_siege_social || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Code postal:</span>
-                                <span class="info-value">${entreprise.code_postal_siege_social || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Pays:</span>
-                                <span class="info-value">${entreprise.pays_siege_social || 'N/A'}</span>
-                            </div>
-                        </div>
-
-                        <div class="info-section">
-                            <h4>📞 Contact</h4>
-                            <div class="info-item">
-                                <span class="info-label">Téléphone:</span>
-                                <span class="info-value">${entreprise.numero_telephone || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Email:</span>
-                                <span class="info-value">${entreprise.email_contact_principal || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Site web:</span>
-                                <span class="info-value">${entreprise.site_web_url || 'N/A'}</span>
-                            </div>
-                        </div>
-
-                        <div class="info-section">
-                            <h4>✅ Statut KYB</h4>
-                            <div class="info-item">
-                                <span class="info-label">Statut:</span>
-                                <span class="info-value">${entreprise.statut_kyb || 'N/A'}</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Motif:</span>
-                                <span class="info-value">${entreprise.motif_statut || 'N/A'}</span>
-                            </div>
-                        </div>
-
-                        <div class="info-section">
-                            <h4>👤 Utilisateur</h4>
-                            <div class="info-item">
-                                <span class="info-label">User ID:</span>
-                                <span class="info-value">${entreprise.user_id || 'N/A'}</span>
-                            </div>
-                            ${entreprise.user ? `
+                            <h3>ðÂÂÂÂÂÂ Informations générales</h3>
+                            <div class="info-grid">
                                 <div class="info-item">
-                                    <span class="info-label">Nom utilisateur:</span>
-                                    <span class="info-value">${entreprise.user.name || 'N/A'}</span>
+                                    <label>ID Entreprise:</label>
+                                    <div class="value">${entreprise.id}</div>
                                 </div>
                                 <div class="info-item">
-                                    <span class="info-label">Email utilisateur:</span>
-                                    <span class="info-value">${entreprise.user.email || 'N/A'}</span>
+                                    <label>Nom commercial:</label>
+                                    <div class="value">${entreprise.nom_commercial || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Secteur d'activité:</label>
+                                    <div class="value">${entreprise.secteur_activite || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Année de création:</label>
+                                    <div class="value">${entreprise.annee_creation_entreprise || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                            </div>
+                            ${entreprise.description_activite ? `
+                                <div class="info-item">
+                                    <label>Description de l'activité:</label>
+                                    <div class="value">${entreprise.description_activite}</div>
                                 </div>
                             ` : ''}
                         </div>
-                    </div>
 
-                    ${entreprise.fichiers ? `
-                        <div class="files-section">
-                            <h4>📄 Fichiers associés</h4>
-                            ${generateFilesHtml(entreprise.fichiers)}
+                        <div class="info-section">
+                            <h3>ðÂÂÂÂÂÂ Informations légales</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Numéro identification fiscale:</label>
+                                    <div class="value">${entreprise.numero_identification_fiscale || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Registre du commerce:</label>
+                                    <div class="value">${entreprise.numero_registre_commerce || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>SIREN:</label>
+                                    <div class="value">${entreprise.numero_siren || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>SIRET:</label>
+                                    <div class="value">${entreprise.numero_siret || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>TVA intracommunautaire:</label>
+                                    <div class="value">${entreprise.numero_tva_intracommunautaire || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Capital social:</label>
+                                    <div class="value">${entreprise.capital_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                            </div>
                         </div>
-                    ` : ''}
-                </div>
 
-                <div class="json-response">
-                    <h4>📝 Réponse JSON complète</h4>
-                    <pre>${JSON.stringify(entreprise, null, 2)}</pre>
+                        <div class="info-section">
+                            <h3>ðÂÂÂÂÂÂ Adresse</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Adresse du siège:</label>
+                                    <div class="value">${entreprise.adresse_siege_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Ville:</label>
+                                    <div class="value">${entreprise.ville_siege_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Code postal:</label>
+                                    <div class="value">${entreprise.code_postal_siege_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Pays:</label>
+                                    <div class="value">${entreprise.pays_siege_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3>ðÂÂÂÂÂÂ Contact</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Téléphone:</label>
+                                    <div class="value">${entreprise.numero_telephone || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Email principal:</label>
+                                    <div class="value">${entreprise.email_contact_principal || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Téléphone contact:</label>
+                                    <div class="value">${entreprise.telephone_contact_principal || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Site web:</label>
+                                    <div class="value">${entreprise.site_web_url ? `<a href="${entreprise.site_web_url}" target="_blank">${entreprise.site_web_url}</a>` : '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        ${entreprise.fichiers && entreprise.fichiers.length > 0 ? `
+                            <div class="fichiers-section">
+                                <h3>ðÂÂÂÂÂÂ Documents</h3>
+                                ${generateFichiersHTML(entreprise.fichiers)}
+                            </div>
+                        ` : ''}
+
+                        <button class="toggle-json" onclick="toggleJson()">
+                            ðÂÂÂÂÂÂ Afficher/Masquer JSON brut
+                        </button>
+                        <div class="json-viewer" id="json-viewer" style="display: none;">
+                            ${JSON.stringify(entreprise, null, 2)}
+                        </div>
+                    </div>
                 </div>
             `;
-
-            resultDiv.innerHTML = html;
-            resultDiv.className = 'result-container show';
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
+            
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function generateFilesHtml(fichiers) {
-            if (!fichiers || (Array.isArray(fichiers) && fichiers.length === 0)) {
-                return '<p>Aucun fichier associé</p>';
-            }
-
-            // Si fichiers est un objet (relation one-to-one)
-            if (!Array.isArray(fichiers)) {
-                fichiers = [fichiers];
-            }
-
-            return fichiers.map(fichier => {
-                const files = [];
-                
-                if (fichier.url_rccm) files.push({ name: 'RCCM', url: fichier.url_rccm, date: fichier.date_expiration_rccm });
-                if (fichier.url_attestation_fiscale) files.push({ name: 'Attestation fiscale', url: fichier.url_attestation_fiscale, date: fichier.date_expiration_attestation_fiscale });
-                if (fichier.url_statuts_societe) files.push({ name: 'Statuts société', url: fichier.url_statuts_societe, date: fichier.date_maj_statuts });
-                if (fichier.url_declaration_regularite) files.push({ name: 'Déclaration régularité', url: fichier.url_declaration_regularite, date: fichier.date_emission_declaration_regularite });
-                if (fichier.url_attestation_immatriculation) files.push({ name: 'Attestation immatriculation', url: fichier.url_attestation_immatriculation, date: fichier.date_emission_attestation_immatriculation });
-
-                return files.map(file => `
-                    <div class="file-item">
-                        <div class="file-name">${file.name}</div>
-                        <div class="file-url">${file.url}</div>
-                        ${file.date ? `<div class="file-date">Date: ${file.date}</div>` : ''}
+        function generateFichiersHTML(fichiers) {
+            return fichiers.map(fichier => `
+                <div class="fichier-item">
+                    <div class="fichier-info">
+                        <div class="fichier-name">Document ID: ${fichier.id}</div>
+                        <div class="fichier-meta">
+                            Statut: <span class="status-badge status-${fichier.statut_fichier}">${getStatusText(fichier.statut_fichier)}</span>
+                        </div>
+                        <div class="fichier-meta">
+                            Créé le: ${new Date(fichier.created_at).toLocaleDateString('fr-FR')}
+                        </div>
                     </div>
-                `).join('');
+                </div>
+                ${generateDocumentLinks(fichier)}
+            `).join('');
+        }
+
+        function generateDocumentLinks(fichier) {
+            const documents = [
+                { key: 'url_rccm', label: 'RCCM', expire: fichier.date_expiration_rccm },
+                { key: 'url_attestation_fiscale', label: 'Attestation Fiscale', expire: fichier.date_expiration_attestation_fiscale },
+                { key: 'url_statuts_societe', label: 'Statuts Société', date: fichier.date_maj_statuts },
+                { key: 'url_declaration_regularite', label: 'Déclaration Régularité', date: fichier.date_emission_declaration_regularite },
+                { key: 'url_attestation_immatriculation', label: 'Attestation Immatriculation', date: fichier.date_emission_attestation_immatriculation }
+            ];
+
+            return documents.map(doc => {
+                if (fichier[doc.key]) {
+                    return `
+                        <div class="fichier-item">
+                            <div class="fichier-info">
+                                <div class="fichier-name">${doc.label}</div>
+                                <div class="fichier-meta">
+                                    ${doc.expire ? `Expire en: ${doc.expire}` : ''}
+                                    ${doc.date ? `Date: ${doc.date}` : ''}
+                                </div>
+                            </div>
+                            <a href="${fichier[doc.key]}" target="_blank" class="fichier-link">
+                                ðÂÂÂÂÂÂ Voir le document
+                            </a>
+                        </div>
+                    `;
+                }
+                return '';
             }).join('');
         }
 
         function showError(message, data = null) {
-            const html = `
-                <div class="error-container">
-                    <h4>❌ Erreur</h4>
+            const container = document.getElementById('response-container');
+            container.className = 'response-container';
+            
+            container.innerHTML = `
+                <div class="response-error">
+                    <h3>âÂÂÂÂ Erreur</h3>
                     <p>${message}</p>
                     ${data ? `
-                        <div class="json-response">
-                            <h4>📝 Détails de l'erreur</h4>
-                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        <button class="toggle-json" onclick="toggleJson()">
+                            ðÂÂÂÂÂÂ Afficher/Masquer détails
+                        </button>
+                        <div class="json-viewer" id="json-viewer" style="display: none;">
+                            ${JSON.stringify(data, null, 2)}
                         </div>
                     ` : ''}
                 </div>
             `;
-
             
-
-            resultDiv.innerHTML = html;
-            resultDiv.className = 'result-container show';
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
         }
+
+        function toggleJson() {
+            const jsonViewer = document.getElementById('json-viewer');
+            jsonViewer.style.display = jsonViewer.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'en_attente': 'En attente',
+                'approuve': 'Approuvé',
+                'rejete': 'Rejeté',
+                'en_revision': 'En révision'
+            };
+            return statusMap[status] || status;
+        }
+
+        // Gestion du token avec localStorage pour la persistance
+        window.addEventListener('load', function() {
+            const savedToken = localStorage.getItem('auth_token');
+            if (savedToken) {
+                document.getElementById('auth-token').value = savedToken;
+            }
+        });
+
+        document.getElementById('auth-token').addEventListener('input', function() {
+            localStorage.setItem('auth_token', this.value);
+        });
     </script>
 </body>
 </html>

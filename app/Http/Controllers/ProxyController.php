@@ -12,17 +12,12 @@ use Illuminate\Support\Facades\Config;
 class ProxyController extends Controller
 {
 
-   private $services;
+    private $services;
 
     public function __construct()
     {
         $this->services = Config::get('keys.services'); // ou 'services.microservices' si tu renommes
     }
- 
-    // private $services = [
-    //     'user' => env("USER_INTERFACE"),// 'http://127.0.0.1:8001',
-    //     'apikeys' => env("APIKEYS_INTERFACE"), // 'http://127.0.0.1:8002',
-    // ];
 
     public function register(Request $request)
     {
@@ -39,7 +34,7 @@ class ProxyController extends Controller
         return $this->proxyRequest('user', 'password/reset', $request);
     }
 
-      public function verify_code(Request $request)
+    public function verify_code(Request $request)
     {
         return $this->proxyRequest('user', 'verify_code', $request);
     }
@@ -63,15 +58,57 @@ class ProxyController extends Controller
         return $this->proxyRequest('apikeys', $path, $request);
     }
 
+
+
+    public function transactions(Request $request, $path = '')
+    {
+        // Debug : voir ce qui arrive
+        Log::info('transactions proxy called', [
+            'original_path' => $path,
+            'full_url' => $request->fullUrl(),
+            'method' => $request->method()
+        ]);
+
+        if (empty($path)) {
+            $path = 'transactions';
+        } else {
+            $path = 'transactions/' . ltrim($path, '/');
+        }
+
+        $path = ltrim($path, '/');
+
+        Log::info('Final path for proxy', [
+            'final_path' => $path,
+            'will_call' => $this->services['transactions'] . '/api/' . $path
+        ]);
+
+        return $this->proxyRequest('transactions', $path, $request);
+    }
+
+    private function cleanSwaggerPath($path)
+    {
+        // Supprimer les domaines qui se retrouvent dans le path
+        $path = preg_replace('/^docs\/[^\/]+\.elyft\.tech\//', '', $path);
+
+        // Supprimer les doubles slashes
+        $path = preg_replace('/\/+/', '/', $path);
+
+        return $path;
+    }
+
     /**
      * Méthode générique pour proxier les requêtes
      */
     private function proxyRequest($service, $path, Request $request)
     {
-     try {   
+        try {
             $baseUrl = $this->services[$service];
-            $fullPath = '/api' . ($path ? '/' . ltrim($path, '/') : '');
-            $url = $baseUrl . $fullPath;
+            $cleanPath = $this->cleanSwaggerPath($path);
+
+
+            $fullPath = $cleanPath ? '/api/' . ltrim($cleanPath, '/') : '';
+            // $fullPath = $cleanPath ? '/' . ltrim($cleanPath, '/') : '';
+            $url = rtrim($baseUrl, '/') . $fullPath;
 
             Log::info("=== PROXY FULL DEBUG ===", [
                 'incoming_request' => [
@@ -284,6 +321,16 @@ class ProxyController extends Controller
             }
         }
 
+        // Ajouter TOUS les headers personnalisés X-* (sauf ceux déjà traités)
+        foreach ($request->headers->all() as $headerName => $headerValues) {
+            $lowerHeaderName = strtolower($headerName);
+
+            // Permettre tous les headers qui commencent par 'x-' et qui ne sont pas déjà inclus
+            if (str_starts_with($lowerHeaderName, 'x-') && !isset($headers[$lowerHeaderName])) {
+                $headers[$headerName] = is_array($headerValues) ? $headerValues[0] : $headerValues;
+            }
+        }
+
         // Ajouter des headers custom du gateway
         $headers['X-Gateway-Request'] = 'true';
         $headers['X-Gateway-User-Id'] = auth()->id() ?? 'anonymous';
@@ -352,14 +399,14 @@ class ProxyController extends Controller
      */
     public function testConnectivity()
     {
-         
+
         $results = [];
 
         foreach ($this->services as $service => $url) {
             try {
                 $url = Config::get('keys.services.' . $service);
                 $start = microtime(true);
-                $response = Http::timeout(5)->get($url . '/api/entreprise/me/company');
+                $response = Http::timeout(5)->get($url . '/api/transactions');
                 $end = microtime(true);
 
                 $results[$service] = [

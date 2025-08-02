@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Entreprises - Interface de Test</title>
+    <title>Consultation Entreprise</title>
     <style>
         * {
             margin: 0;
@@ -23,290 +22,381 @@
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
+            border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            padding: 40px;
             text-align: center;
+            color: white;
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2.5rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
         }
 
         .header p {
-            font-size: 1.2em;
+            font-size: 1.1rem;
             opacity: 0.9;
         }
 
-        .nav-tabs {
-            display: flex;
-            background: #f8f9fa;
-            border-bottom: 3px solid #667eea;
+        .content {
+            padding: 40px;
         }
 
-        .nav-tab {
-            flex: 1;
-            padding: 15px 20px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #555;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-tab:hover {
-            background: #e9ecef;
-            color: #667eea;
-        }
-
-        .nav-tab.active {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .nav-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #764ba2;
-        }
-
-        .tab-content {
-            display: none;
+        .auth-section {
+            background: #f8fafc;
             padding: 30px;
-            animation: fadeIn 0.5s ease-in-out;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 4px solid #4facfe;
         }
 
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .auth-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-row {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-            margin-bottom: 0;
-        }
-
-        label {
+        .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #333;
-            font-size: 0.95em;
+            color: #555;
         }
 
         .required::after {
-            content: ' *';
+            content: " *";
             color: #e74c3c;
         }
 
-        input,
-        select,
-        textarea {
+        input[type="text"],
+        input[type="url"] {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1em;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
             transition: all 0.3s ease;
+            background: white;
+            font-family: monospace;
         }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
+        input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-input-wrapper input[type=file] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .file-input-label {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            background: #f8f9fa;
-            border: 2px dashed #667eea;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            justify-content: center;
-        }
-
-        .file-input-label:hover {
-            background: #e9ecef;
-            border-color: #764ba2;
-        }
-
-        .file-input-label::before {
-            content: '📁';
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 15px 35px rgba(79, 172, 254, 0.4);
         }
 
-        .btn-secondary {
-            background: #6c757d;
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+         .btn-danger {
+            background: linear-gradient(135deg, #ff3a3a 0%, #ff1dc7 100%);
             color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(119, 36, 36, 0.3);
         }
 
         .btn-danger:hover {
-            background: #c0392b;
             transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(124, 1, 1, 0.4);
         }
 
-        .btn-success {
-            background: #27ae60;
+        .btn-danger:active {
+            transform: translateY(0);
+        }
+
+        .btn-danger:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+         
+
+          .btn-green {
+            background: linear-gradient(135deg, #00ff15 0%, #00ff95 100%);
             color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(119, 36, 36, 0.3);
         }
 
-        .btn-success:hover {
-            background: #229954;
+        .btn-green:hover {
             transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(21, 184, 0, 0.4);
         }
 
-        .button-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
+        .btn-green:active {
+            transform: translateY(0);
+        }
+
+        .btn-green:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+
+        .btn-orange {
+            background: linear-gradient(135deg, #f39e00 0%, #f8f400 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(119, 36, 36, 0.3);
+        }
+
+        .btn-orange:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(252, 193, 0, 0.4);
+        }
+
+        .btn-orange:active {
+            transform: translateY(0);
+        }
+
+        .btn-orange:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading::after {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4facfe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .response-container {
             margin-top: 30px;
+            display: none;
         }
 
-        .search-section {
-            background: #f8f9fa;
+        .response-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 30px;
         }
 
-        .search-form {
-            display: flex;
-            gap: 15px;
-            align-items: end;
-        }
-
-        .search-form .form-group {
-            flex: 1;
-            margin-bottom: 0;
+        .response-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
         }
 
         .entreprise-card {
             background: white;
-            border: 1px solid #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .entreprise-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
         }
 
         .entreprise-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .entreprise-header h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .entreprise-header .type {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .entreprise-body {
+            padding: 30px;
+        }
+
+        .info-section {
+            margin-bottom: 30px;
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4facfe;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .info-item label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-item .value {
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .info-item .empty {
+            color: #999;
+            font-style: italic;
+        }
+
+        .fichiers-section {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .fichiers-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fichier-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #27ae60;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f8f9fa;
         }
 
-        .entreprise-title {
-            font-size: 1.5em;
-            font-weight: 700;
+        .fichier-info {
+            flex: 1;
+        }
+
+        .fichier-name {
+            font-weight: 600;
             color: #333;
+            margin-bottom: 5px;
+        }
+
+        .fichier-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .fichier-link {
+            background: #4facfe;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .fichier-link:hover {
+            background: #2196f3;
+            transform: translateY(-1px);
         }
 
         .status-badge {
-            padding: 5px 15px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.9em;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
         }
@@ -326,1087 +416,477 @@
             color: #721c24;
         }
 
-        .entreprise-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
+        .status-en-revision {
+            background: #d1ecf1;
+            color: #0c5460;
         }
 
-        .detail-item {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 6px;
-        }
-
-        .detail-label {
-            font-weight: 600;
-            color: #667eea;
-            font-size: 0.9em;
-        }
-
-        .detail-value {
-            margin-top: 5px;
-            color: #333;
-        }
-
-        .file-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .file-link {
-            background: #667eea;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-        }
-
-        .file-link:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-        }
-
-        .alert {
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-danger {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .alert-info {
-            background: #cce7ff;
-            color: #004085;
-            border: 1px solid #b8daff;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .section-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 25px;
-            text-align: center;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
-        }
-
-        .form-section {
-            background: #f8f9fa;
+        .user-info {
+            background: #e8f4f8;
             padding: 20px;
             border-radius: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        .form-section-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e9ecef;
-            padding-bottom: 10px;
+        .user-info h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .json-viewer {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            margin-top: 20px;
+        }
+
+        .toggle-json {
+            background: #4a5568;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .toggle-json:hover {
+            background: #2d3748;
         }
 
         @media (max-width: 768px) {
-            .form-row {
-                flex-direction: column;
-            }
-
-            .nav-tabs {
-                flex-direction: column;
-            }
-
-            .search-form {
-                flex-direction: column;
-            }
-
-            .button-group {
-                flex-direction: column;
-            }
-
-            .entreprise-details {
+            .info-grid {
                 grid-template-columns: 1fr;
             }
-        }
-
-        .api-endpoint {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-family: 'Courier New', monospace;
-        }
-
-        .method-post {
-            color: #e74c3c;
-        }
-
-        .method-get {
-            color: #27ae60;
-        }
-
-        .method-put {
-            color: #f39c12;
-        }
-
-        .method-delete {
-            color: #e74c3c;
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .fichier-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏢 Gestion des Entreprises</h1>
-            <p>Interface de test pour les fonctions Laravel</p>
+            <h1>ðÂÂ¢ Consultation Entreprise</h1>
+            <p>Récupération des informations d'entreprise via token d'authentification</p>
         </div>
 
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showTab('create')">Créer une Entreprise</button>
-            <button class="nav-tab" onclick="showTab('view')">Consulter</button>
-            <button class="nav-tab" onclick="showTab('update')">Modifier</button>
-            <button class="nav-tab" onclick="showTab('delete')">Supprimer</button>
-            <button class="nav-tab" onclick="showTab('api')">API Documentation</button>
-        </div>
-
-        <!-- Onglet Créer -->
-        <div id="create" class="tab-content active">
-            <h2 class="section-title">Créer une Nouvelle Entreprise</h2>
-
-            <form id="createForm">
-                <div class="form-section">
-                    <h3 class="form-section-title">Informations Générales</h3>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="required">Nom de l'entreprise</label>
-                            <input type="text" name="nom_entreprise" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nom commercial</label>
-                            <input type="text" name="nom_commercial">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="required">Type d'entreprise</label>
-                            <select name="type_entreprise" required>
-                                <option value="">Sélectionner un type</option>
-                                <option value="SARL">SARL</option>
-                                <option value="SA">SA</option>
-                                <option value="EURL">EURL</option>
-                                <option value="Auto-entrepreneur">Auto-entrepreneur</option>
-                                <option value="Association">Association</option>
-                                <option value="Individuel">Individuel</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Secteur d'activité</label>
-                            <input type="text" name="secteur_activite" maxlength="100">
-                        </div>
-                    </div>
-
+        <div class="content">
+            <div class="auth-section">
+                <h3>ðÂÂÂ Configuration de l'API</h3> 
+                   
+                    <input type="url" hidden id="api-url" value="https://aggregator.elyft.tech/api/docs/aggragator.elyft.tech/api/entreprises/me/company" placeholder="https://aggregator.elyft.tech/api/docs/aggragator.elyft.tech/api/entreprises/me/company">
+                  
+                    <input type="text" hidden id="auth-token" placeholder="Bearer your-jwt-token-here">
+             
+                <button type="button" class="btn-primary" onclick="fetchEntreprise()">
+                    ðÂÂÂ Récupérer les informations de mon entreprise
+                </button>
+                
+                 <div class="auth-section">
+                    <h3>ðÂÂÂ Recherche par ID d'entreprise</h3>
                     <div class="form-group">
-                        <label>Description de l'activité</label>
-                        <textarea name="description_activite" rows="3"></textarea>
+                        <label for="entreprise-id">ID de l'entreprise:</label>
+                        <input type="text" id="entreprise-id" placeholder="kjdnkdfjlsdksdmkl">
                     </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Année de création</label>
-                            <input type="number" name="annee_creation_entreprise" min="1900" max="2026">
-                        </div>
-                        <div class="form-group">
-                            <label>Capital social</label>
-                            <input type="text" name="capital_social">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3 class="form-section-title">Numéros d'Identification</h3>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Numéro d'identification fiscale</label>
-                            <input type="text" name="numero_identification_fiscale">
-                        </div>
-                        <div class="form-group">
-                            <label>Numéro de registre de commerce</label>
-                            <input type="text" name="numero_registre_commerce">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Numéro SIREN</label>
-                            <input type="text" name="numero_siren">
-                        </div>
-                        <div class="form-group">
-                            <label>Numéro SIRET</label>
-                            <input type="text" name="numero_siret">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Numéro TVA intracommunautaire</label>
-                        <input type="text" name="numero_tva_intracommunautaire">
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3 class="form-section-title">Adresse du Siège Social</h3>
-
-                    <div class="form-group">
-                        <label>Adresse</label>
-                        <input type="text" name="adresse_siege_social" maxlength="255">
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Ville</label>
-                            <input type="text" name="ville_siege_social" maxlength="100">
-                        </div>
-                        <div class="form-group">
-                            <label>Code postal</label>
-                            <input type="text" name="code_postal_siege_social" maxlength="20">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="required">Pays</label>
-                        <select name="pays_siege_social" required>
-                            <option value="">Sélectionner un pays</option>
-                            <option value="Bénin">Bénin</option>
-                            <option value="Cameroun">Cameroun</option>
-                            <option value="Côte d'Ivoire">Côte d'Ivoire</option>
-                            <option value="Guinée-Bissau">Guinée-Bissau</option>
-                            <option value="Guinée-Conakry">Guinée-Conakry</option>
-                            <option value="Mali">Mali</option>
-                            <option value="Niger">Niger</option>
-                            <option value="République Centrafricaine">République Centrafricaine</option>
-                            <option value="Congo-Brazzaville">Congo-Brazzaville</option>
-                            <option value="Sénégal">Sénégal</option>
-                            <option value="Tchad">Tchad</option>
-                            <option value="Togo">Togo</option>
-                            <option value="Ouganda">Ouganda</option>
-                            <option value="Afrique du Sud">Afrique du Sud</option>
-                            <option value="Botswana">Botswana</option>
-                            <option value="MoneyGhana">MoneyGhana</option>
-                            <option value="Rwanda">Rwanda</option>
-                            <option value="Soudan">Soudan</option>
-                            <option value="Zambie">Zambie</option>
-                            <option value="MoneyBénin">MoneyBénin</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3 class="form-section-title">Contact</h3>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Email de contact principal</label>
-                            <input type="email" name="email_contact_principal">
-                        </div>
-                        <div class="form-group">
-                            <label>Téléphone</label>
-                            <input type="tel" name="numero_telephone">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Téléphone contact principal</label>
-                            <input type="tel" name="telephone_contact_principal" maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label>Site web</label>
-                            <input type="url" name="site_web_url">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>URL du logo</label>
-                        <input type="url" name="logo_url">
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3 class="form-section-title">Documents</h3>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>RCCM</label>
-                            <div class="file-input-wrapper">
-                                <input type="file" name="rccm_file" accept=".pdf,.jpg,.png">
-                                <div class="file-input-label">Choisir un fichier RCCM</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Date d'expiration RCCM</label>
-                            <input type="number" name="date_expiration_rccm" min="1900" max="2030">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Attestation fiscale</label>
-                            <div class="file-input-wrapper">
-                                <input type="file" name="attestation_fiscale_file" accept=".pdf,.jpg,.png">
-                                <div class="file-input-label">Choisir l'attestation fiscale</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Date d'expiration attestation fiscale</label>
-                            <input type="number" name="date_expiration_attestation_fiscale" min="1900"
-                                max="2030">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Statuts de la société</label>
-                            <div class="file-input-wrapper">
-                                <input type="file" name="statuts_societe_file" accept=".pdf">
-                                <div class="file-input-label">Choisir les statuts</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Date de mise à jour des statuts</label>
-                            <input type="number" name="date_maj_statuts" min="1900" max="2030">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Déclaration de régularité</label>
-                            <div class="file-input-wrapper">
-                                <input type="file" name="declaration_regularite_file" accept=".pdf">
-                                <div class="file-input-label">Choisir la déclaration</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Date d'émission déclaration</label>
-                            <input type="number" name="date_emission_declaration_regularite" min="1900"
-                                max="2030">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Attestation d'immatriculation</label>
-                            <div class="file-input-wrapper">
-                                <input type="file" name="attestation_immatriculation_file"
-                                    accept=".pdf,.jpg,.png">
-                                <div class="file-input-label">Choisir l'attestation</div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Date d'émission attestation</label>
-                            <input type="number" name="date_emission_attestation_immatriculation" min="1900"
-                                max="2030">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button type="submit" class="btn btn-primary">
-                        <span class="loading" id="createLoading" style="display: none;"></span>
-                        Créer l'entreprise
-                    </button>
-                    <button type="reset" class="btn btn-secondary">Réinitialiser</button>
-                </div>
-            </form>
-
-            <div id="createResult"></div>
-        </div>
-
-        <!-- Onglet Consulter -->
-        <div id="view" class="tab-content">
-            <h2 class="section-title">Consulter les Entreprises</h2>
-
-            <div class="search-section">
-                <div class="search-form">
-                    <div class="form-group">
-                        <label>Rechercher par ID</label>
-                        <input type="number" id="searchId" placeholder="ID de l'entreprise">
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" onclick="searchEntreprise()">
-                            <span class="loading" id="searchLoading" style="display: none;"></span>
-                            Rechercher
-                        </button>
-                    </div>
-                </div>
-
-                <div style="margin-top: 15px;">
-                    <button class="btn btn-success" onclick="getMyEntreprise()">
-                        <span class="loading" id="myEntrepriseLoading" style="display: none;"></span>
-                        Voir mon entreprise
+                    <button type="button" class="btn-primary" onclick="fetchEntrepriseById()">
+                        ðÂÂ¯ Récupérer par ID
                     </button>
                 </div>
+                
+                <div class="auth-section">
+                    <h3>ðÂÂÂ Recherche par ID d'entreprise</h3>
+                     
+                    <button type="button" class="btn-green" onclick="fetchEntrepriseById()">
+                        ðÂÂ¯ Ajouter
+                    </button>
+                     <button type="button" class="btn-orange" onclick="fetchEntrepriseById()">
+                        ðÂÂ¯ Modifier
+                    </button>
+                     <button type="button" class="btn-danger" onclick="fetchEntrepriseById()">
+                        ðÂÂ¯ Supprimer
+                    </button>
+                    
+                     
+                </div>
+                
+                <div class="loading">Chargement en cours...</div>
             </div>
 
-            <div id="viewResult"></div>
-        </div>
-
-        <!-- Onglet Modifier -->
-        <div id="update" class="tab-content">
-            <h2 class="section-title">Modifier une Entreprise</h2>
-
-            <div class="search-section">
-                <div class="search-form">
-                    <div class="form-group">
-                        <label>ID de l'entreprise à modifier</label>
-                        <input type="number" id="updateId" placeholder="ID de l'entreprise">
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" onclick="loadEntrepriseForUpdate()">
-                            <span class="loading" id="loadUpdateLoading" style="display: none;"></span>
-                            Charger
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="updateFormContainer" style="display: none;">
-                <form id="updateForm">
-                    <input type="hidden" id="updateEntrepriseId">
-
-                    <div class="form-section">
-                        <h3 class="form-section-title">Informations Générales</h3>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Nom de l'entreprise</label>
-                                <input type="text" name="nom_entreprise" id="update_nom_entreprise">
-                            </div>
-                            <div class="form-group">
-                                <label>Nom commercial</label>
-                                <input type="text" name="nom_commercial" id="update_nom_commercial">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Type d'entreprise</label>
-                                <select name="type_entreprise" id="update_type_entreprise">
-                                    <option value="">Sélectionner un type</option>
-                                    <option value="SARL">SARL</option>
-                                    <option value="SA">SA</option>
-                                    <option value="EURL">EURL</option>
-                                    <option value="Auto-entrepreneur">Auto-entrepreneur</option>
-                                    <option value="Association">Association</option>
-                                    <option value="Individuel">Individuel</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Secteur d'activité</label>
-                                <input type="text" name="secteur_activite" id="update_secteur_activite">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Description de l'activité</label>
-                            <textarea name="description_activite" id="update_description_activite" rows="3"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="button-group">
-                        <button type="submit" class="btn btn-primary">
-                            <span class="loading" id="updateLoading" style="display: none;"></span>
-                            Modifier l'entreprise
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelUpdate()">Annuler</button>
-                    </div>
-                </form>
-            </div>
-
-            <div id="updateResult"></div>
-        </div>
-
-        <!-- Onglet Supprimer -->
-        <div id="delete" class="tab-content">
-            <h2 class="section-title">Supprimer une Entreprise</h2>
-
-            <div class="alert alert-danger">
-                <strong>⚠️ Attention !</strong> La suppression d'une entreprise est irréversible. Tous les fichiers
-                associés seront également supprimés.
-            </div>
-
-            <div class="search-section">
-                <div class="search-form">
-                    <div class="form-group">
-                        <label>ID de l'entreprise à supprimer</label>
-                        <input type="number" id="deleteId" placeholder="ID de l'entreprise">
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-danger" onclick="deleteEntreprise()">
-                            <span class="loading" id="deleteLoading" style="display: none;"></span>
-                            Supprimer
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="deleteResult"></div>
-        </div>
-
-        <!-- Onglet API Documentation -->
-        <div id="api" class="tab-content">
-            <h2 class="section-title">Documentation API</h2>
-
-            <div class="form-section">
-                <h3 class="form-section-title">Endpoints disponibles</h3>
-
-                <div class="api-endpoint">
-                    <div class="method-post">POST</div> /api/entreprises
-                    <div>Créer une nouvelle entreprise</div>
-                </div>
-
-                <div class="api-endpoint">
-                    <div class="method-get">GET</div> /api/entreprises/{id}
-                    <div>Récupérer une entreprise par ID</div>
-                </div>
-
-                <div class="api-endpoint">
-                    <div class="method-get">GET</div> /api/entreprises/my
-                    <div>Récupérer l'entreprise de l'utilisateur connecté</div>
-                </div>
-
-                <div class="api-endpoint">
-                    <div class="method-put">PUT</div> /api/entreprises/{id}
-                    <div>Modifier une entreprise</div>
-                </div>
-
-                <div class="api-endpoint">
-                    <div class="method-delete">DELETE</div> /api/entreprises/{id}
-                    <div>Supprimer une entreprise</div>
-                </div>
-            </div>
-
-            <div class="form-section">
-                <h3 class="form-section-title">Configuration requise</h3>
-                <div class="alert alert-info">
-                    <strong>Note:</strong> Cette interface nécessite que votre API Laravel soit configurée avec les
-                    routes appropriées et l'authentification.
-                </div>
-
-                <div class="form-group">
-                    <label>URL de base de l'API</label>
-                    <input type="url" id="apiBaseUrl" value="http://127.0.0.1:8000/api"
-                        placeholder="http://127.0.0.1:8000/api">
-                </div>
-
-                <div class="form-group">
-                    <label>Token d'authentification</label>
-                    <input type="text" id="authToken" placeholder="Bearer token...">
-                </div>
-
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="saveApiConfig()">Sauvegarder la configuration</button>
-                    <button class="btn btn-secondary" onclick="testApiConnection()">Tester la connexion</button>
-                </div>
-            </div>
+            <div class="response-container" id="response-container"></div>
         </div>
     </div>
 
     <script>
-        // Configuration API
-        let apiConfig = {
-            baseUrl: 'http://127.0.0.1:8000/api',
-            token: ''
-        };
+        async function fetchEntreprise() {
+            const apiUrl = document.getElementById('api-url').value;
+           const authToken = localStorage.getItem('auth_token');
+            const responseContainer = document.getElementById('response-container');
+            const loading = document.querySelector('.loading');
+            const button = document.querySelector('.btn-primary');
 
-        // Gestion des onglets
-        function showTab(tabName) {
-            // Masquer tous les contenus
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
+            if (!apiUrl || !authToken) {
+                showError('Veuillez remplir l\'URL de l\'API et le token d\'authentification.');
+                return;
+            }
 
-            // Masquer tous les boutons actifs
-            const tabButtons = document.querySelectorAll('.nav-tab');
-            tabButtons.forEach(button => button.classList.remove('active'));
+            // Afficher le loading
+            button.disabled = true;
+            loading.style.display = 'block';
+            responseContainer.style.display = 'none';
 
-            // Afficher le contenu sélectionné
-            document.getElementById(tabName).classList.add('active');
-
-            // Activer le bouton correspondant
-            event.target.classList.add('active');
-        }
-
-        // Gestion des inputs de fichier
-        document.addEventListener('DOMContentLoaded', function() {
-            const fileInputs = document.querySelectorAll('input[type="file"]');
-            fileInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    const label = this.nextElementSibling;
-                    if (this.files.length > 0) {
-                        label.textContent = this.files[0].name;
-                        label.style.color = '#667eea';
-                    } else {
-                        label.textContent = label.getAttribute('data-original-text') ||
-                            'Choisir un fichier';
-                        label.style.color = '';
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
                     }
                 });
-            });
-        });
-
-        // Fonctions utilitaires
-        function showLoading(elementId) {
-            document.getElementById(elementId).style.display = 'inline-block';
-        }
-
-        function hideLoading(elementId) {
-            document.getElementById(elementId).style.display = 'none';
-        }
-
-        function showResult(containerId, type, message) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-            container.scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        function getApiHeaders(authRequired = true, type = 'application/json') {
-            const headers = {
-                'Accept': 'application/json', 
-                'X-Requested-With': 'XMLHttpRequest'
-            };
-
-            if (authRequired) {
-                headers['Authorization'] = document.getElementById('authToken').value;
-            }
-
-            if (type === 'application/json') {
-                headers['Content-Type'] = 'application/json';
-            } else {
-                headers['Content-type'] = type;
-            }
-
-            return headers;
-        }
-
-        // Créer une entreprise
-        document.getElementById('createForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            showLoading('createLoading');
-
-            const formData = new FormData(this);
-
-            console.log('Form data:', Object.fromEntries(formData.entries()));
-
-            try {
-                const response = await fetch(`${apiConfig.baseUrl}/entreprises`, {
-                    method: 'POST',
-                    headers: getApiHeaders(authRequired = true, type = 'multipart/form-data'),
-                    body: Object.fromEntries(formData.entries())
-                });
-
-                console.log(getApiHeaders(authRequired = true, type = 'multipart/form-data'));  
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    showResult('createResult', 'success',
-                        `✅ Entreprise créée avec succès !<br>
-                        <strong>ID:</strong> ${data.entreprise.id}<br>
-                        <strong>Nom:</strong> ${data.entreprise.nom_entreprise}`
-                    );
-                    this.reset();
+                    showEntreprise(data);
                 } else {
-                    showResult('createResult', 'danger',
-                        `❌ Erreur lors de la création: ${data.message || 'Erreur inconnue'}`
-                    );
+                    showError(`Erreur ${response.status}: ${data.message || 'Erreur inconnue'}`, data);
                 }
             } catch (error) {
-                showResult('createResult', 'danger',
-                    `❌ Erreur de connexion: ${error.message}`
-                );
+                showError(`Erreur de connexion: ${error.message}`, null);
             } finally {
-                hideLoading('createLoading');
+                button.disabled = false;
+                loading.style.display = 'none';
             }
-        });
-
-        // Rechercher une entreprise
-        async function searchEntreprise() {
-            const id = document.getElementById('searchId').value;
-            if (!id) {
-                showResult('viewResult', 'danger', '❌ Veuillez saisir un ID d\'entreprise');
+        }
+        
+        async function fetchEntrepriseById() {
+            const apiUrl = document.getElementById('api-url').value;
+            const authToken = document.getElementById('auth-token').value;
+            const entrepriseId = document.getElementById('entreprise-id').value;
+            
+            if (!apiUrl || !authToken) {
+                showError('Veuillez remplir l\'URL de l\'API et le token d\'authentification.');
                 return;
             }
 
-            showLoading('searchLoading');
+            if (!entrepriseId) {
+                showError('Veuillez saisir un ID d\'entreprise.');
+                return;
+            }
+
+            const fullUrl = `https://aggregator.elyft.tech/api/docs/aggragator.elyft.tech/api/entreprises/${entrepriseId}`;
+            await makeRequest(fullUrl, authToken, 'GET');
+        }
+
+        async function makeRequest(url, token, method) {
+            const responseContainer = document.getElementById('response-container');
+            const loading = document.querySelector('.loading');
+            const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+
+            // Désactiver tous les boutons
+            buttons.forEach(btn => btn.disabled = true);
+            loading.style.display = 'block';
+            responseContainer.style.display = 'none';
 
             try {
-                const response = await fetch(`${apiConfig.baseUrl}/entreprises/${id}`, {
-                    headers: getApiHeaders()
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': token.startsWith('Bearer ') ? token : `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
 
                 const data = await response.json();
 
                 if (response.ok) {
-                    displayEntreprise(data.entreprise, 'viewResult');
+                    showEntreprise(data);
                 } else {
-                    showResult('viewResult', 'danger',
-                        `❌ ${data.message || 'Entreprise non trouvée'}`
-                    );
+                    showError(`Erreur ${response.status}: ${data.message || 'Erreur inconnue'}`, data);
                 }
             } catch (error) {
-                showResult('viewResult', 'danger',
-                    `❌ Erreur de connexion: ${error.message}`
-                );
+                showError(`Erreur de connexion: ${error.message}`, null);
             } finally {
-                hideLoading('searchLoading');
+                // Réactiver tous les boutons
+                buttons.forEach(btn => btn.disabled = false);
+                loading.style.display = 'none';
             }
         }
 
-        // Récupérer mon entreprise
-        async function getMyEntreprise() {
-            showLoading('myEntrepriseLoading');
-
-            try {
-                const response = await fetch(`${apiConfig.baseUrl}/entreprises/my`, {
-                    headers: getApiHeaders()
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    displayEntreprise(data, 'viewResult');
-                } else {
-                    showResult('viewResult', 'danger',
-                        `❌ ${data.message || 'Aucune entreprise trouvée'}`
-                    );
-                }
-            } catch (error) {
-                showResult('viewResult', 'danger',
-                    `❌ Erreur de connexion: ${error.message}`
-                );
-            } finally {
-                hideLoading('myEntrepriseLoading');
-            }
-        }
-
-        // Afficher une entreprise
-        function displayEntreprise(entreprise, containerId) {
-            const statusClass = `status-${entreprise.statut_kyb || 'en_attente'}`;
-            const statusText = entreprise.statut_kyb || 'en_attente';
-
-            let filesHtml = '';
-            if (entreprise.fichiers) {
-                const fichiers = entreprise.fichiers;
-                const fileLinks = [];
-
-                if (fichiers.url_rccm) fileLinks.push(
-                    `<a href="${fichiers.url_rccm}" target="_blank" class="file-link">RCCM</a>`);
-                if (fichiers.url_attestation_fiscale) fileLinks.push(
-                    `<a href="${fichiers.url_attestation_fiscale}" target="_blank" class="file-link">Attestation fiscale</a>`
-                    );
-                if (fichiers.url_statuts_societe) fileLinks.push(
-                    `<a href="${fichiers.url_statuts_societe}" target="_blank" class="file-link">Statuts</a>`);
-                if (fichiers.url_declaration_regularite) fileLinks.push(
-                    `<a href="${fichiers.url_declaration_regularite}" target="_blank" class="file-link">Déclaration</a>`
-                    );
-                if (fichiers.url_attestation_immatriculation) fileLinks.push(
-                    `<a href="${fichiers.url_attestation_immatriculation}" target="_blank" class="file-link">Immatriculation</a>`
-                    );
-
-                if (fileLinks.length > 0) {
-                    filesHtml = `<div class="file-links">${fileLinks.join('')}</div>`;
-                }
-            }
-
-            const html = `
+        function showEntreprise(entreprise) {
+            const container = document.getElementById('response-container');
+            container.className = 'response-container';
+            
+            const statusClass = `status-${entreprise.statut_kyb || 'en-attente'}`;
+            const statusText = getStatusText(entreprise.statut_kyb);
+            
+            container.innerHTML = `
                 <div class="entreprise-card">
                     <div class="entreprise-header">
-                        <h3 class="entreprise-title">${entreprise.nom_entreprise}</h3>
-                        <div class="status-badge ${statusClass}">${statusText}</div>
+                        <h2>${entreprise.nom_entreprise}</h2>
+                        <div class="type">${entreprise.type_entreprise}</div>
+                        <div class="status-badge ${statusClass}" style="margin-top: 10px;">${statusText}</div>
                     </div>
                     
-                    <div class="entreprise-details">
-                        <div class="detail-item">
-                            <div class="detail-label">ID</div>
-                            <div class="detail-value">${entreprise.id}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Nom commercial</div>
-                            <div class="detail-value">${entreprise.nom_commercial || 'Non renseigné'}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Type</div>
-                            <div class="detail-value">${entreprise.type_entreprise}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Secteur</div>
-                            <div class="detail-value">${entreprise.secteur_activite || 'Non renseigné'}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Email</div>
-                            <div class="detail-value">${entreprise.email_contact_principal || 'Non renseigné'}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Téléphone</div>
-                            <div class="detail-value">${entreprise.numero_telephone || 'Non renseigné'}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Pays</div>
-                            <div class="detail-value">${entreprise.pays_siege_social || 'Non renseigné'}</div>
-                        </div>
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Année création</div>
-                            <div class="detail-value">${entreprise.annee_creation_entreprise || 'Non renseigné'}</div>
-                        </div>
-                    </div>
-                    
-                    ${entreprise.description_activite ? `
-                            <div class="detail-item" style="margin-top: 15px;">
-                                <div class="detail-label">Description</div>
-                                <div class="detail-value">${entreprise.description_activite}</div>
+                    <div class="entreprise-body">
+                        ${entreprise.user ? `
+                            <div class="user-info">
+                                <h4>ðÂÂ¤ Utilisateur propriétaire</h4>
+                                <div class="info-grid">
+                                    <div class="info-item">
+                                        <label>ID:</label>
+                                        <div class="value">${entreprise.user.id}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Email:</label>
+                                        <div class="value">${entreprise.user.email || '<span class="empty">Non renseigné</span>'}</div>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>Nom:</label>
+                                        <div class="value">${entreprise.user.name || '<span class="empty">Non renseigné</span>'}</div>
+                                    </div>
+                                </div>
                             </div>
                         ` : ''}
-                    
-                    ${filesHtml}
+                        
+                        <div class="info-section">
+                            <h3>ðÂÂÂ Informations générales</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>ID Entreprise:</label>
+                                    <div class="value">${entreprise.id}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Nom commercial:</label>
+                                    <div class="value">${entreprise.nom_commercial || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Secteur d'activité:</label>
+                                    <div class="value">${entreprise.secteur_activite || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Année de création:</label>
+                                    <div class="value">${entreprise.annee_creation_entreprise || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                            </div>
+                            ${entreprise.description_activite ? `
+                                <div class="info-item">
+                                    <label>Description de l'activité:</label>
+                                    <div class="value">${entreprise.description_activite}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="info-section">
+                            <h3>ðÂÂÂ Informations légales</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Numéro identification fiscale:</label>
+                                    <div class="value">${entreprise.numero_identification_fiscale || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Registre du commerce:</label>
+                                    <div class="value">${entreprise.numero_registre_commerce || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>SIREN:</label>
+                                    <div class="value">${entreprise.numero_siren || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>SIRET:</label>
+                                    <div class="value">${entreprise.numero_siret || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>TVA intracommunautaire:</label>
+                                    <div class="value">${entreprise.numero_tva_intracommunautaire || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Capital social:</label>
+                                    <div class="value">${entreprise.capital_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3>ðÂÂÂ Adresse</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Adresse du siège:</label>
+                                    <div class="value">${entreprise.adresse_siege_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Ville:</label>
+                                    <div class="value">${entreprise.ville_siege_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Code postal:</label>
+                                    <div class="value">${entreprise.code_postal_siege_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Pays:</label>
+                                    <div class="value">${entreprise.pays_siege_social || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3>ðÂÂÂ Contact</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Téléphone:</label>
+                                    <div class="value">${entreprise.numero_telephone || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Email principal:</label>
+                                    <div class="value">${entreprise.email_contact_principal || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Téléphone contact:</label>
+                                    <div class="value">${entreprise.telephone_contact_principal || '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Site web:</label>
+                                    <div class="value">${entreprise.site_web_url ? `<a href="${entreprise.site_web_url}" target="_blank">${entreprise.site_web_url}</a>` : '<span class="empty">Non renseigné</span>'}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        ${entreprise.fichiers && entreprise.fichiers.length > 0 ? `
+                            <div class="fichiers-section">
+                                <h3>ðÂÂÂ Documents</h3>
+                                ${generateFichiersHTML(entreprise.fichiers)}
+                            </div>
+                        ` : ''}
+
+                        <button class="toggle-json" onclick="toggleJson()">
+                            ðÂÂÂ Afficher/Masquer JSON brut
+                        </button>
+                        <div class="json-viewer" id="json-viewer" style="display: none;">
+                            ${JSON.stringify(entreprise, null, 2)}
+                        </div>
+                    </div>
                 </div>
             `;
-
-            document.getElementById(containerId).innerHTML = html;
+            
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Charger entreprise pour modification
-        async function loadEntrepriseForUpdate() {
-            const id = document.getElementById('updateId').value;
-            if (!id) {
-                showResult('updateResult', 'danger', '❌ Veuillez saisir un ID d\'entreprise');
-                return;
-            }
+        function generateFichiersHTML(fichiers) {
+            return fichiers.map(fichier => `
+                <div class="fichier-item">
+                    <div class="fichier-info">
+                        <div class="fichier-name">Document ID: ${fichier.id}</div>
+                        <div class="fichier-meta">
+                            Statut: <span class="status-badge status-${fichier.statut_fichier}">${getStatusText(fichier.statut_fichier)}</span>
+                        </div>
+                        <div class="fichier-meta">
+                            Créé le: ${new Date(fichier.created_at).toLocaleDateString('fr-FR')}
+                        </div>
+                    </div>
+                </div>
+                ${generateDocumentLinks(fichier)}
+            `).join('');
+        }
 
-            showLoading('loadUpdateLoading');
+        function generateDocumentLinks(fichier) {
+            const documents = [
+                { key: 'url_rccm', label: 'RCCM', expire: fichier.date_expiration_rccm },
+                { key: 'url_attestation_fiscale', label: 'Attestation Fiscale', expire: fichier.date_expiration_attestation_fiscale },
+                { key: 'url_statuts_societe', label: 'Statuts Société', date: fichier.date_maj_statuts },
+                { key: 'url_declaration_regularite', label: 'Déclaration Régularité', date: fichier.date_emission_declaration_regularite },
+                { key: 'url_attestation_immatriculation', label: 'Attestation Immatriculation', date: fichier.date_emission_attestation_immatriculation }
+            ];
 
-            try {
-                const response = await fetch(`${apiConfig.baseUrl}/entreprises/${id}`, {
-                    headers: getApiHeaders()
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    populateUpdateForm(data.entreprise);
-                    document.getElementById('updateFormContainer').style.display = 'block';
-                    showResult('updateResult', 'info', '✅ Entreprise chargée avec succès');
-                } else {
-                    showResult('updateResult', 'danger',
-                        `❌ ${data.message || 'Entreprise non trouvée'}`
-                    );
+            return documents.map(doc => {
+                if (fichier[doc.key]) {
+                    return `
+                        <div class="fichier-item">
+                            <div class="fichier-info">
+                                <div class="fichier-name">${doc.label}</div>
+                                <div class="fichier-meta">
+                                    ${doc.expire ? `Expire en: ${doc.expire}` : ''}
+                                    ${doc.date ? `Date: ${doc.date}` : ''}
+                                </div>
+                            </div>
+                            <a href="${fichier[doc.key]}" target="_blank" class="fichier-link">
+                                ðÂÂÂ Voir le document
+                            </a>
+                        </div>
+                    `;
                 }
-            } catch (error) {
-                showResult('updateResult', 'danger',
-                    `❌ Erreur de connexion: ${error.message}`
-                );
-            } finally {
-                hideLoading('loadUpdateLoading');
-            }
+                return '';
+            }).join('');
         }
 
-        // Remplir le formulaire de modification
-        function populateUpdateForm(entreprise) {
-            document.getElementById('updateEntrepriseId').value = entreprise.id;
-            document.getElementById('update_nom_entreprise').value = entreprise.nom_entreprise || '';
-            document.getElementById('update_nom_commercial').value = entreprise.nom_commercial || '';
-            document.getElementById('update_type_entreprise').value = entreprise.type_entreprise || '';
-            document.getElementById('update_secteur_activite').value = entreprise.secteur_activite || '';
-            document.getElementById('update_description_activite').value = entreprise.description_activite || '';
+        function showError(message, data = null) {
+            const container = document.getElementById('response-container');
+            container.className = 'response-container';
+            
+            container.innerHTML = `
+                <div class="response-error">
+                    <h3>âÂÂ Erreur</h3>
+                    <p>${message}</p>
+                    ${data ? `
+                        <button class="toggle-json" onclick="toggleJson()">
+                            ðÂÂÂ Afficher/Masquer détails
+                        </button>
+                        <div class="json-viewer" id="json-viewer" style="display: none;">
+                            ${JSON.stringify(data, null, 2)}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Modifier une entreprise
-        document.getElementById('updateForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        function toggleJson() {
+            const jsonViewer = document.getElementById('json-viewer');
+            jsonViewer.style.display = jsonViewer.style.display === 'none' ? 'block' : 'none';
+        }
 
-            const id = document.getElementById('updateEntrepriseId').value;
-            showLoading('updateLoading');
+        function getStatusText(status) {
+            const statusMap = {
+                'en_attente': 'En attente',
+                'approuve': 'Approuvé',
+                'rejete': 'Rejeté',
+                'en_revision': 'En révision'
+            };
+            return statusMap[status] || status;
+        }
 
-            const formData = new FormData(this);
-            formData.append('_method', 'PUT');
-
-            try {
-                const response = await fetch(`${apiConfig.baseUrl}/entreprises/${id}`, {
-                    method: 'POST',
-                    headers: getApiHeaders(),
-                    body: formData
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    showResult('updateResult', 'success',
-                        `✅ Entreprise modifiée avec succès !<br>
-                        <strong>Nom:</strong> ${data.entreprise.nom_entreprise}`
-                    );
-                } else {
-                    showResult('updateResult', 'danger',
-                        `❌ Erreur lors de la modification: ${data.message || 'Erreur inconnue'}`
-                    );
-                }
-            } catch (error) {
-                showResult('updateResult', 'danger',
-                    `❌ Erreur de connexion: ${error.message}`
-                );
-            } finally {
-                hideLoading('updateLoading');
+        // Gestion du token avec localStorage pour la persistance
+        window.addEventListener('load', function() {
+            const savedToken = localStorage.getItem('auth_token');
+            if (savedToken) {
+                document.getElementById('auth-token').value = savedToken;
             }
         });
 
-        // Annuler la modification
-        function cancelUpdate() {
-            document.getElementById('updateFormContainer').style.display = 'none';
-            document.getElementById('updateId').value = '';
-            document.getElementById('updateResult').innerHTML = '';
-        }
-
-        // Supprimer une entreprise
-        async function deleteEntreprise() {
-            const id = document.getElementById('deleteId').value;
-            if (!id) {
-                showResult('deleteResult', 'danger', '❌ Veuillez saisir un ID d\'entreprise');
-                return;
-            }
-
-            if (!confirm('Êtes-vous sûr de vouloir supprimer cette entreprise ? Cette action est irréversible.')) {
-                return;
-            }
-
-            showLoading('deleteLoading');
-
-            try {
-                const response = await fetch(`${apiConfig.baseUrl}/entreprises/${id}`, {
-                    method: 'DELETE',
-                    headers: getApiHeaders()
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    showResult('deleteResult', 'success',
-                        `✅ Entreprise supprimée avec succès !`
-                    );
-                    document.getElementById('deleteId').value = '';
-                } else {
-                    showResult('deleteResult', 'danger',
-                        `❌ ${data.message || 'Erreur lors de la suppression'}`
-                    );
-                }
-            } catch (error) {
-                showResult('deleteResult', 'danger',
-                    `❌ Erreur de connexion: ${error.message}`
-                );
-            } finally {
-                hideLoading('deleteLoading');
-            }
-        }
-
-        // Sauvegarder la configuration API
-        function saveApiConfig() {
-            apiConfig.baseUrl = document.getElementById('apiBaseUrl').value;
-            apiConfig.token = document.getElementById('authToken').value;
-
-            localStorage.setItem('apiConfig', JSON.stringify(apiConfig));
-            showResult('api', 'success', '✅ Configuration sauvegardée avec succès');
-        }
-
-        // Tester la connexion API
-        async function testApiConnection() {
-            try {
-                console.log(document.getElementById('apiBaseUrl').value);
-                base = document.getElementById('apiBaseUrl').value;
-                console.log(base);
-                console.log(document.getElementById('authToken').value);
-                const response = await fetch(base, {
-                    headers: getApiHeaders(authRequired = true)
-                });
-
-                console.log(getApiHeaders());
-
-                if (response.ok) {
-                    showResult('api', 'success', '✅ Connexion API réussie');
-                } else {
-                    showResult('api', 'danger', '❌ Erreur de connexion API');
-                }
-            } catch (error) {
-                showResult('api', 'danger', `❌ Erreur de connexion: ${error.message}`);
-            }
-        }
-
-        // Charger la configuration sauvegardée
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedConfig = localStorage.getItem('apiConfig');
-            if (savedConfig) {
-                apiConfig = JSON.parse(savedConfig);
-                document.getElementById('apiBaseUrl').value = apiConfig.baseUrl;
-                document.getElementById('authToken').value = apiConfig.token;
-            }
+        document.getElementById('auth-token').addEventListener('input', function() {
+            localStorage.setItem('auth_token', this.value);
         });
     </script>
 </body>
-
 </html>

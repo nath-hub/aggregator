@@ -51,16 +51,11 @@ class SwaggerController extends Controller
                 'url' => config('keys.services.apikeys'),
                 'prefix' => '/api'
             ],
-            'wallet' => [
+            'transactions' => [
                 'name' => 'Wallet Service',
-                'url' => 'http://wallet-service:8003',
-                'prefix' => '/api/wallets'
-            ],
-            'notification' => [
-                'name' => 'Notification Service',
-                'url' => 'http://notification-service:8004',
-                'prefix' => '/api/notifications'
-            ]
+                'url' => config('keys.services.transactions'),
+                'prefix' => '/api'
+            ] 
         ];
     }
 
@@ -126,6 +121,7 @@ class SwaggerController extends Controller
                     $baseSwagger = $this->mergeSwagger($baseSwagger, $serviceSwagger, $service);
                 }
             } catch (\Exception $e) {
+                Log::warning("url" . $service['url'] . $service['name'] . $service['prefix']);
                 Log::warning("Impossible de récupérer Swagger pour {$service['name']}: " . $e->getMessage());
             }
         }
@@ -235,7 +231,7 @@ class SwaggerController extends Controller
         if (isset($serviceSwagger['components']['schemas'])) {
             foreach ($serviceSwagger['components']['schemas'] as $schemaName => $schema) {
                 // Préfixer les schemas pour éviter les conflits
-                $prefixedName = ucfirst($service['display_name']) . $schemaName;
+                $prefixedName = ucfirst($service['name']) . $schemaName;
                 $baseSwagger['components']['schemas'][$prefixedName] = $schema;
             }
         }

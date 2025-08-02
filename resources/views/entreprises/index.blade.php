@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,13 +46,22 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             animation: pulse 4s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
         }
 
         .header h1 {
@@ -279,8 +289,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .empty-state {
@@ -325,8 +340,15 @@
         }
 
         @keyframes modalSlideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .modal-header {
@@ -469,6 +491,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -578,8 +601,7 @@
 
         // Données de simulation
         function loadMockData() {
-            entreprises = [
-                {
+            entreprises = [{
                     id: 1,
                     nom: "TechCorp Solutions",
                     email: "contact@techcorp.com",
@@ -587,9 +609,14 @@
                     adresse: "123 Avenue des Champs-Élysées, Paris",
                     secteur: "IT",
                     created_at: "2024-01-15T10:30:00Z",
-                    fichiers: [
-                        { id: 1, nom: "Statuts.pdf" },
-                        { id: 2, nom: "Registre.pdf" }
+                    fichiers: [{
+                            id: 1,
+                            nom: "Statuts.pdf"
+                        },
+                        {
+                            id: 2,
+                            nom: "Registre.pdf"
+                        }
                     ]
                 },
                 {
@@ -600,9 +627,10 @@
                     adresse: "456 Rue de la Paix, Lyon",
                     secteur: "Énergie",
                     created_at: "2024-02-20T14:15:00Z",
-                    fichiers: [
-                        { id: 3, nom: "Contrat.pdf" }
-                    ]
+                    fichiers: [{
+                        id: 3,
+                        nom: "Contrat.pdf"
+                    }]
                 },
                 {
                     id: 3,
@@ -688,7 +716,7 @@
         // Recherche
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
-            const filteredEntreprises = entreprises.filter(entreprise => 
+            const filteredEntreprises = entreprises.filter(entreprise =>
                 (entreprise.nom && entreprise.nom.toLowerCase().includes(searchTerm)) ||
                 (entreprise.email && entreprise.email.toLowerCase().includes(searchTerm)) ||
                 (entreprise.secteur && entreprise.secteur.toLowerCase().includes(searchTerm))
@@ -698,15 +726,20 @@
 
         // Actions
         function viewEntreprise(id) {
-            window.location.href = {{ url(`/entreprise/${id}`) }}; //`/entreprise/${id}`;
+            const baseUrl = "{{ url('/entreprises') }}";
+            window.location.href = `${baseUrl}/${id}`;
+
         }
 
         function editEntreprise(id) {
-            window.location.href = `/entreprise/${id}/edit`;
+            window.location.href = `/entreprises/1/update`;
         }
 
         function addEntreprise() {
-            window.location.href = {{ url(`/entreprise/create`) }};
+
+            const baseUrl = "{{ url('/entreprises') }}";
+            window.location.href = `${baseUrl}/create`;
+ 
         }
 
         function deleteEntreprise(id, nom) {
@@ -737,21 +770,21 @@
                 }
 
                 const result = await response.json();
-                
+
                 // Simulation de la suppression
                 entreprises = entreprises.filter(e => e.id !== currentDeleteId);
                 displayEntreprises(entreprises);
-                
+
                 showSuccessMessage('Entreprise supprimée avec succès');
                 closeDeleteModal();
 
             } catch (error) {
                 console.error('Erreur lors de la suppression:', error);
-                
+
                 // Simulation de la suppression en cas d'erreur API
                 entreprises = entreprises.filter(e => e.id !== currentDeleteId);
                 displayEntreprises(entreprises);
-                
+
                 showSuccessMessage('Entreprise supprimée avec succès (mode démo)');
                 closeDeleteModal();
             }
@@ -760,10 +793,10 @@
         function showSuccessMessage(message) {
             const successMsg = document.getElementById('successMessage');
             const successText = document.getElementById('successText');
-            
+
             successText.textContent = message;
             successMsg.style.display = 'block';
-            
+
             setTimeout(() => {
                 successMsg.style.display = 'none';
             }, 5000);
@@ -772,10 +805,10 @@
         function showErrorMessage(message) {
             const errorMsg = document.getElementById('errorMessage');
             const errorText = document.getElementById('errorText');
-            
+
             errorText.textContent = message;
             errorMsg.style.display = 'block';
-            
+
             setTimeout(() => {
                 errorMsg.style.display = 'none';
             }, 5000);
@@ -795,4 +828,5 @@
         });
     </script>
 </body>
+
 </html>

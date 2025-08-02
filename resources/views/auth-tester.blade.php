@@ -323,21 +323,21 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔐 Test API d'Authentification</h1>
+            <h1>Test API d'Authentification</h1>
             <p>Interface de test pour vos fonctions Laravel</p>
         </div>
 
         <div class="tabs">
-            <button class="tab-button active" onclick="showTab('register')">📝 Inscription</button>
-            <button class="tab-button" onclick="showTab('login')">🔑 Connexion</button>
-            <button class="tab-button" onclick="showTab('verify')">✅ Vérification</button>
-            <button class="tab-button" onclick="showTab('profile')">👤 Profil</button>
-            <button class="tab-button" onclick="showTab('users')">👥 Utilisateurs</button>
-            <button class="tab-button" onclick="showTab('reset')">🔄 Reset MDP</button>
-            <button class="tab-button" onclick="showTab('change')">🔒 Changer MDP</button>
-            {{-- <button class="tab-button" onclick="window.location.href='{{ url('/entreprise') }}'">➕ Entreprise</button> --}}
+            <button class="tab-button active" onclick="showTab('register')">Inscription</button>
+            <button class="tab-button" onclick="showTab('login')"> Connexion</button>
+            <button class="tab-button" onclick="showTab('verify')"> Vérification</button>
+            <button class="tab-button" onclick="showTab('profile')"> Profil</button>
+            <button class="tab-button" onclick="showTab('users')"> Utilisateurs</button>
+            <button class="tab-button" onclick="showTab('reset')">Reset MDP</button>
+            <button class="tab-button" onclick="showTab('change')"> Changer MDP</button>
+            {{-- <button class="tab-button" onclick="window.location.href='{{ url('/entreprise') }}'"> Entreprise</button> --}}
 
-             <button class="tab-button" onclick="window.location.href='{{ route('entreprises.index') }}'">➕ Entreprise</button>
+             <button class="tab-button" onclick="window.location.href='{{ route('entreprises.show') }}'"> Entreprise</button>
 
 
 
@@ -345,7 +345,7 @@
 
         <!-- Inscription -->
         <div id="register" class="tab-content active">
-            <h2>📝 Inscription d'un nouvel utilisateur</h2>
+            <h2> Inscription d'un nouvel utilisateur</h2>
             <form id="registerForm">
                 <div class="form-group">
                     <label for="reg_name">Nom complet</label>
@@ -379,7 +379,7 @@
 
         <!-- Connexion -->
         <div id="login" class="tab-content">
-            <h2>🔑 Connexion</h2>
+            <h2> Connexion</h2>
             <form id="loginForm">
                 <div class="form-group">
                     <label for="login_email">Email</label>
@@ -400,7 +400,7 @@
 
         <!-- Vérification -->
         <div id="verify" class="tab-content">
-            <h2>✅ Vérification du code</h2>
+            <h2> Vérification du code</h2>
             <form id="verifyForm">
                 <div class="form-group">
                     <label for="verify_email">Email</label>
@@ -417,61 +417,61 @@
 
         <!-- Profil -->
         <div id="profile" class="tab-content">
-            <h2>👤 Profil utilisateur</h2>
+            <h2>Profil utilisateur</h2>
             <p>Vous devez être connecté pour voir votre profil.</p>
             <button type="button" class="btn" onclick="getProfile()">Afficher mon profil</button>
             <button type="button" class="btn" onclick="logout()"
                 style="background: #dc3545; margin-top: 10px;">Se déconnecter</button>
 
             <div id="profileInfo" class="profile-info" style="display: none;">
-                <h3>📋 Informations du profil</h3>
+                <h3>ðÂÂÂ Informations du profil</h3>
                 <div class="profile-grid">
                     <div class="profile-item">
-                        <span class="profile-label">👤 Nom :</span>
+                        <span class="profile-label">Nom :</span>
                         <span class="profile-value" id="profileName"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">✉️ Email :</span>
+                        <span class="profile-label"> Email :</span>
                         <span class="profile-value" id="profileEmail"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">📞 Téléphone :</span>
+                        <span class="profile-label"> Téléphone :</span>
                         <span class="profile-value" id="profileTelephone"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">🛡️ Rôle :</span>
+                        <span class="profile-label"> Rôle :</span>
                         <span class="profile-value" id="profileRole"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">🔑 Permissions :</span>
+                        <span class="profile-label">Permissions :</span>
                         <span class="profile-value" id="profilePermissions"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">✅ Email vérifié :</span>
+                        <span class="profile-label">Email vérifié :</span>
                         <span class="profile-value" id="profileEmailVerified"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">📊 Statut :</span>
+                        <span class="profile-label"> Statut :</span>
                         <span class="profile-value" id="profileStatus"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">🌐 Langue :</span>
+                        <span class="profile-label"> Langue :</span>
                         <span class="profile-value" id="profileLanguage"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">🔔 Notifications :</span>
+                        <span class="profile-label">Notifications :</span>
                         <span class="profile-value" id="profileNotifications"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">🕒 Dernière connexion :</span>
+                        <span class="profile-label">ðÂÂÂ Dernière connexion :</span>
                         <span class="profile-value" id="profileLastLogin"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">📅 Créé le :</span>
+                        <span class="profile-label">ðÂÂÂ Créé le :</span>
                         <span class="profile-value" id="profileCreatedAt"></span>
                     </div>
                     <div class="profile-item">
-                        <span class="profile-label">🔄 Mis à jour le :</span>
+                        <span class="profile-label">ðÂÂÂ Mis à jour le :</span>
                         <span class="profile-value" id="profileUpdatedAt"></span>
                     </div>
                 </div>
@@ -482,7 +482,7 @@
 
         <!-- Reset Password -->
         <div id="reset" class="tab-content">
-            <h2>🔄 Réinitialisation du mot de passe</h2>
+            <h2>ðÂÂÂ Réinitialisation du mot de passe</h2>
             <div class="grid">
                 <div class="card">
                     <h3>Demander un lien de réinitialisation</h3>
@@ -516,27 +516,27 @@
 
         <!-- Utilisateurs -->
         <div id="users" class="tab-content">
-            <h2>👥 Gestion des utilisateurs</h2>
+            <h2>ðÂÂ¥ Gestion des utilisateurs</h2>
             <p>Fonctionnalités réservées aux Super Administrateurs</p>
 
             <div class="admin-actions">
-                <button type="button" class="btn" onclick="getAllUsers()">📋 Lister tous les
+                <button type="button" class="btn" onclick="getAllUsers()">ðÂÂÂ Lister tous les
                     utilisateurs</button>
-                <button type="button" class="btn" onclick="showUserForm()" style="background: #28a745;">➕
+                <button type="button" class="btn" onclick="showUserForm()" style="background: #28a745;">âÂÂ
                     Modifier un utilisateur</button>
-                <button type="button" class="btn" onclick="showDeleteForm()" style="background: #dc3545;">🗑️
+                <button type="button" class="btn" onclick="showDeleteForm()" style="background: #dc3545;">ðÂÂÂï¸Â
                     Supprimer un utilisateur</button>
             </div>
 
             <!-- Liste des utilisateurs -->
             <div id="usersList" class="users-list" style="display: none;">
-                <h3>📋 Liste des utilisateurs</h3>
+                <h3>ðÂÂÂ Liste des utilisateurs</h3>
                 <div id="usersTable"></div>
             </div>
 
             <!-- Formulaire de modification -->
             <div id="userUpdateForm" class="user-form" style="display: none;">
-                <h3>✏️ Modifier un utilisateur</h3>
+                <h3>âÂÂï¸Â Modifier un utilisateur</h3>
                 <form id="updateUserForm">
                     <div class="form-group">
                         <label for="update_user_id">ID Utilisateur</label>
@@ -605,9 +605,9 @@
 
             <!-- Formulaire de suppression -->
             <div id="userDeleteForm" class="user-form" style="display: none;">
-                <h3>🗑️ Supprimer un utilisateur</h3>
+                <h3>ðÂÂÂï¸Â Supprimer un utilisateur</h3>
                 <div class="warning-box">
-                    <p>⚠️ <strong>Attention :</strong> La suppression d'un utilisateur est irréversible !</p>
+                    <p>âÂ ï¸Â <strong>Attention :</strong> La suppression d'un utilisateur est irréversible !</p>
                 </div>
                 <form id="deleteUserForm">
                     <div class="form-group">
@@ -624,7 +624,7 @@
 
         <!-- Change Password -->
         <div id="change" class="tab-content">
-            <h2>🔒 Changer le mot de passe</h2>
+            <h2>ðÂÂÂ Changer le mot de passe</h2>
             <p>Vous devez être connecté pour changer votre mot de passe.</p>
             <form id="changePasswordForm">
                 <div class="form-group">
@@ -642,7 +642,7 @@
 
         <script>
             // Configuration de l'API
-            const API_BASE_URL = 'https://aggregator.elyft.tech/entreprise/api'; // Ajustez selon votre configuration
+            const API_BASE_URL = 'https://aggregator.elyft.tech/api/docs/aggragator.elyft.tech/api'; // Ajustez selon votre configuration
             let authToken = localStorage.getItem('auth_token');
 
             // Gestion des onglets

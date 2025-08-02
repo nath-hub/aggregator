@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\SwaggerController;
 use \App\Http\Controllers\ProxyController;
+use Illuminate\Support\Facades\Log;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,8 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/example', [\App\Http\Controllers\SwaggerController::class, 'index'])
-    ->name('example')
-    ->middleware('auth:sanctum');
+    ->name('example');
+// ->middleware('auth:sanctum');
 
 
 // Route::get('/users', [\App\Http\Controllers\SwaggerController::class, 'show'])
@@ -52,15 +54,30 @@ Route::prefix('apikeys/')->group(function () {
     Route::any('{path?}', [ProxyController::class, 'apikeys'])->where('path', '.*');
 });
 
+// Route::prefix('transactions/')->group(function () {
+//     Route::any('{path?}', [ProxyController::class, 'transactions'])->where('path', '.*');
+// });
+
+// Route::any('/operations', [ProxyController::class, 'operations']); // Route racine
+Route::prefix('transactions')->group(function () {
+    Route::any('/{path?}', [ProxyController::class, 'transactions'])->where('path', '.*');
+});
+
+// Route::any('{path?}', [ProxyController::class, 'transactions'])->where('path', '.*');
 Route::any('{path?}', [ProxyController::class, 'userProtected'])->where('path', '.*');
 
- 
+
+// Route::any('{path?}', function ($path = '') {
+//     Log::info('Route transactions appelée avec path: ' . $path);
+//     return app(ProxyController::class)->transactions(request(), $path);
+// })->where('path', '.*');
+
+
+
+
 // Routes proxy vers les microservices (exemples)
 Route::prefix('/')->middleware(['auth:sanctum'])->group(function () {
 
-
-    // Proxy vers Transaction Service  
-    Route::prefix('')->group(function () {});
 
     // Proxy vers Wallet Service
     Route::prefix('wallets')->group(function () {
