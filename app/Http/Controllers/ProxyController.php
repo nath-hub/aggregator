@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log; 
 use Illuminate\Support\Facades\Config;
 
 class ProxyController extends Controller
@@ -39,61 +37,73 @@ class ProxyController extends Controller
         return $this->proxyRequest('user', 'verify_code', $request);
     }
 
-    /**
-     * Routes protégées du microservice user
-     */
-    public function userProtected(Request $request, $path = '')
-    {
-        return $this->proxyRequest('user', $path, $request);
-    }
-
-    public function apikeys(Request $request, $path = '')
-    {
-        if (empty($path)) {
-            $path = 'apikeys';
-        } else {
-            $path = 'apikeys/' . ltrim($path, '/');
-        }
-
-        return $this->proxyRequest('apikeys', $path, $request);
-    }
-
-
-
-    public function transactions(Request $request, $path = '')
-    {
-        // Debug : voir ce qui arrive
-        Log::info('transactions proxy called', [
-            'original_path' => $path,
-            'full_url' => $request->fullUrl(),
-            'method' => $request->method()
-        ]);
-
-        if (empty($path)) {
-            $path = 'transactions';
-        } else {
-            $path = 'transactions/' . ltrim($path, '/');
-        }
-
-        $path = ltrim($path, '/');
-
-        Log::info('Final path for proxy', [
-            'final_path' => $path,
-            'will_call' => $this->services['transactions'] . '/api/' . $path
-        ]);
-
-        return $this->proxyRequest('transactions', $path, $request);
-    }
 
     private function cleanSwaggerPath($path)
     {
+
         // Supprimer les domaines qui se retrouvent dans le path
-        $path = preg_replace('/^docs\/[^\/]+\.elyft\.tech\//', '', $path);
+        $cleaned = preg_replace('/^docs\/[^\/]+\.elyft\.tech\/api\//', '', $path);
+
+        // Si le pattern n'a pas matché, essayer sans le préfixe docs/
+        if ($cleaned === $path) {
+            $cleaned = preg_replace('/^[^\/]+\.elyft\.tech\/api\//', '', $path);
+        }
 
         // Supprimer les doubles slashes
-        $path = preg_replace('/\/+/', '/', $path);
+        $cleaned = preg_replace('/\/+/', '/', $cleaned);
+        $cleaned = ltrim($cleaned, '/');
 
-        return $path;
+        // Supprimer les duplications pour tous les services connus
+        $services = ['apikeys', 'transactions', 'users', 'entreprises'];
+        foreach ($services as $service) {
+            // Pattern pour matcher service/service/... et le remplacer par service/...
+            $pattern = '/^' . preg_quote($service, '/') . '\/' . preg_quote($service, '/') . '(\/|$)/';
+            if (preg_match($pattern, $cleaned)) {
+                $cleaned = preg_replace($pattern, $service . '$1', $cleaned);
+
+                break; // Une seule correction par appel
+            }
+        }
+
+        return $cleaned;
+    }
+
+
+    /**
+     * Méthode de routage intelligente qui détermine le bon service
+     */
+    public function smartProxy(Request $request, $path = '')
+    {
+ 
+        $cleanPath = $this->cleanSwaggerPath($path);
+ 
+        $service = $this->determineServiceFromPath($cleanPath);
+
+        return $this->proxyRequest($service, $path, $request);
+    }
+
+    /**
+     * Détermine le service à utiliser basé sur le path
+     */
+    private function determineServiceFromPath($path)
+    {
+        // Supprimer les slashes en début et fin
+        $path = trim($path, '/');
+
+        // Patterns pour identifier les services
+        $servicePatterns = [
+            'apikeys' => '/^(apikeys|api-keys)/i',
+            'transactions' => '/^transactions/i',
+            // Ajoutez d'autres services si nécessaire
+        ];
+
+        foreach ($servicePatterns as $service => $pattern) {
+            if (preg_match($pattern, $path)) {
+                return $service;
+            }
+        }
+ 
+        return 'user';
     }
 
     /**
@@ -101,6 +111,7 @@ class ProxyController extends Controller
      */
     private function proxyRequest($service, $path, Request $request)
     {
+
         try {
             $baseUrl = $this->services[$service];
             $cleanPath = $this->cleanSwaggerPath($path);
@@ -404,9 +415,10 @@ class ProxyController extends Controller
 
         foreach ($this->services as $service => $url) {
             try {
+
                 $url = Config::get('keys.services.' . $service);
                 $start = microtime(true);
-                $response = Http::timeout(5)->get($url . '/api/transactions');
+                $response = Http::timeout(5)->post($url . '/api/transactions/operations');
                 $end = microtime(true);
 
                 $results[$service] = [
