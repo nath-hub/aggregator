@@ -121,6 +121,10 @@ class ProxyController extends Controller
             // $fullPath = $cleanPath ? '/' . ltrim($cleanPath, '/') : '';
             $url = rtrim($baseUrl, '/') . $fullPath;
 
+            if ($request->getQueryString()) {
+            $url .= '?' . $request->getQueryString();
+        }
+
             Log::info("=== PROXY FULL DEBUG ===", [
                 'incoming_request' => [
                     'path_param' => $path,
@@ -144,9 +148,9 @@ class ProxyController extends Controller
                 ]);
 
             // Ajouter les paramètres de query
-            if ($request->getQueryString()) {
-                $httpRequest = $httpRequest->withUrlParameters($request->query());
-            }
+            // if ($request->getQueryString()) {
+            //     $httpRequest = $httpRequest->withUrlParameters($request->query());
+            // }
 
             // Exécuter la requête selon la méthode HTTP
             $response = match ($request->method()) {
