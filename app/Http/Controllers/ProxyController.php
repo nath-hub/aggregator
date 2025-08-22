@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Config;
 
 class ProxyController extends Controller
@@ -74,9 +74,9 @@ class ProxyController extends Controller
      */
     public function smartProxy(Request $request, $path = '')
     {
- 
+
         $cleanPath = $this->cleanSwaggerPath($path);
- 
+
         $service = $this->determineServiceFromPath($cleanPath);
 
         return $this->proxyRequest($service, $path, $request);
@@ -102,7 +102,7 @@ class ProxyController extends Controller
                 return $service;
             }
         }
- 
+
         return 'user';
     }
 
@@ -122,8 +122,8 @@ class ProxyController extends Controller
             $url = rtrim($baseUrl, '/') . $fullPath;
 
             if ($request->getQueryString()) {
-            $url .= '?' . $request->getQueryString();
-        }
+                $url .= '?' . $request->getQueryString();
+            }
 
             Log::info("=== PROXY FULL DEBUG ===", [
                 'incoming_request' => [
@@ -331,6 +331,10 @@ class ProxyController extends Controller
                 if (strtolower($header) === 'content-type' && $this->isMultipartRequest($request)) {
                     continue;
                 }
+                // Exclure le header Authorization pour le service transactions
+                if (strtolower($header) === 'authorization' && $this->isTransactionService($request)) {
+                    continue;
+                }
 
                 $headers[$header] = $headerValue;
             }
@@ -352,6 +356,18 @@ class ProxyController extends Controller
         $headers['X-Forwarded-Host'] = $request->getHost();
 
         return $headers;
+    }
+
+    /**
+     * Vérifier si la requête est destinée au service transactions
+     */
+    private function isTransactionService(Request $request)
+    {
+        $path = $request->getPathInfo();
+        $cleanPath = $this->cleanSwaggerPath($path);
+        $service = $this->determineServiceFromPath($cleanPath);
+
+        return $service === 'transactions';
     }
 
     /**
