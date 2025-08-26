@@ -54,7 +54,7 @@ class ProxyController extends Controller
         $cleaned = ltrim($cleaned, '/');
 
         // Supprimer les duplications pour tous les services connus
-        $services = ['apikeys', 'transactions', 'users', 'entreprises'];
+        $services = ['apikeys', 'transactions', 'users', 'entreprises', 'notifications'];
         foreach ($services as $service) {
             // Pattern pour matcher service/service/... et le remplacer par service/...
             $pattern = '/^' . preg_quote($service, '/') . '\/' . preg_quote($service, '/') . '(\/|$)/';
@@ -94,6 +94,7 @@ class ProxyController extends Controller
         $servicePatterns = [
             'apikeys' => '/^(apikeys|api-keys)/i',
             'transactions' => '/^transactions/i',
+            'notifications' => '/^notifications/i',
             // Ajoutez d'autres services si nécessaire
         ];
 

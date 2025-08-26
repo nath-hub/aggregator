@@ -55,7 +55,12 @@ class SwaggerController extends Controller
                 'name' => 'Wallet Service',
                 'url' => config('keys.services.transactions'),
                 'prefix' => '/api'
-            ] 
+            ],
+            'notifications' => [
+                'name' => 'Notification Service',
+                'url' => config('keys.services.notifications'),
+                'prefix' => '/api'
+            ]
         ];
     }
 
